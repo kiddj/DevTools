@@ -69,7 +69,7 @@ public class User{
 				System.out.println("Login Success");
 				return true;
 		  } else{
-		  	System.out.println("Please check your ID and Password");
+		  	System.out.println("Login failed: Please check your ID and Password");
 		  	return false;
 		  }
 		} catch(Exception e) {
@@ -113,7 +113,6 @@ public class User{
 				return false;
 			}
 		}else {
-			System.out.println("Please check your ID and Password");
 			return false;
 		}
 	}
