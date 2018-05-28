@@ -3,11 +3,13 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.Scanner;
 
 public class User{
 
 	private Connection conn = null;
 	private MessageDigest md = null;
+	private Scanner input = new Scanner(System.in);
 	
 	public User() {
 		try {
@@ -73,6 +75,45 @@ public class User{
 		} catch(Exception e) {
 			System.out.println(e);
 			System.out.println("Error occured");
+			return false;
+		}
+	}
+	
+	public Boolean changePassword(String uid, String pwd) {
+		PreparedStatement stmt = null;
+		if(Login(uid, pwd)) {
+			System.out.print("New Password :: ");
+			String newPwd = input.nextLine();
+			System.out.print("Confirm New Password :: ");
+			String confirmPwd = input.nextLine();
+			
+			if(!newPwd.equals(confirmPwd)) {
+				System.out.println("Passwords you have entered do not match");
+				return false;
+			}
+			
+			//apply SHA-256
+			md.update(newPwd.getBytes());
+			newPwd = bytesToHex(md.digest());
+			
+			try {
+			    stmt = conn.prepareStatement(
+		    	        "UPDATE User SET pwd=?"
+		    	        + " WHERE uid=?");
+				
+				stmt.setString(1, newPwd);
+				stmt.setString(2, uid);
+				stmt.executeUpdate();
+
+				System.out.println("Password successfully changed");
+				return true;
+			} catch(Exception e) {
+				System.out.println(e);
+				System.out.println("Error occured");
+				return false;
+			}
+		}else {
+			System.out.println("Please check your ID and Password");
 			return false;
 		}
 	}
