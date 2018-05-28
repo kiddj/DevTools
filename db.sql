@@ -5,6 +5,7 @@ CREATE TABLE User(
 	uid VARCHAR(20) NOT NULL,
 	pwd VARCHAR(64) NOT NULL,
 	sex INTEGER(1),
+	name VARCHAR(10) NOT NULL,
 	PRIMARY KEY (uid)
 );
 
