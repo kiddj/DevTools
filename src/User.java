@@ -3,7 +3,9 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 
 public class User{
+
 	private Connection conn = null;
+
 	public User() {
 		try {
 		Class.forName("com.mysql.cj.jdbc.Driver");
