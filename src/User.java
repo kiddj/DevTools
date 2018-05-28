@@ -61,12 +61,14 @@ public class User{
 			stmt.setString(1,  uid);
 			//apply SHA-256
 			md.update(pwd.getBytes());
+			
 			pwd = bytesToHex(md.digest());
 			stmt.setString(2,  pwd);
 			rs = stmt.executeQuery();
 
 			if(rs.next()){
-				System.out.println("Welcome "+rs.getString("name")+"\n");
+				System.out.println("\n*****************************************************");
+				System.out.println("Welcome "+rs.getString("name")+"!\n");
 				return true;
 		  } else{
 		  	System.out.println("Login failed: Please check your ID and Password");
@@ -126,4 +128,4 @@ public class User{
 	    }
 	    return hexString.toString();
 	}
-}-
+}
