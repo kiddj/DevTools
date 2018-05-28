@@ -15,7 +15,7 @@ public class User{
 		try {
 		Class.forName("com.mysql.cj.jdbc.Driver");
 		conn = DriverManager.getConnection("jdbc:mysql://211.249.61.207/DevTools?serverTimezone=UTC", "devtools", "tlftmq1");
-		System.out.println("Database Connected");
+		//System.out.println("Database Connected");
 		md = MessageDigest.getInstance("SHA-256");
 		} catch(Exception e) {
 			System.out.println("Database Connection Error");
@@ -66,7 +66,7 @@ public class User{
 			rs = stmt.executeQuery();
 
 			if(rs.next()){
-				System.out.println("Login Success");
+				System.out.println("Welcome "+rs.getString("name")+"\n");
 				return true;
 		  } else{
 		  	System.out.println("Login failed: Please check your ID and Password");
@@ -126,4 +126,4 @@ public class User{
 	    }
 	    return hexString.toString();
 	}
-}
+}-
