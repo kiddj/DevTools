@@ -11,7 +11,6 @@ public class Main{
 		}
 		while(!user.Login(uid, pwd));
 		
-		
 		displayMenu(); 
 	}
 	
