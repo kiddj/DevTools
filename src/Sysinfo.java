@@ -45,7 +45,7 @@ public class Sysinfo {
         try {
             String reg_path = bit==64?REG_INSTALLED_PATH_64:REG_INSTALLED_PATH_32;
             String install_path = bit==64?INSTALLED_PATH_64:INSTALLED_PATH_32;
-            String str_working = bit==64?"Load 64-bit Installed Software":"Load 32-bit Installed Software";
+            String str_working = bit==64?"Load 64-bit Installed Software...":"Load 32-bit Installed Software...";
             Process process = Runtime.getRuntime().exec(install_path);
             StreamReader reader = new StreamReader(process.getInputStream());
             ProgressBar p_loadSW = new ProgressBar(str_working);

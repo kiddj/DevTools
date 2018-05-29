@@ -10,18 +10,18 @@ public class ProgressBar {
         if (remain > total) {
             throw new IllegalArgumentException();
         }
-        int maxBareSize = 20; // 10unit for 100%
-        int remainProcent = (int)(maxBareSize * (((double)remain / total)));
+        int maxPer = 20; // 10unit for 100%
+        int remainPer = (int)(maxPer * (((double)remain / total)));
         char defaultChar = ' ';
-        String icon = "#";
-        String bare = new String(new char[maxBareSize]).replace('\0', defaultChar) + "]";
-        StringBuilder bareDone = new StringBuilder();
-        bareDone.append(work + " [");
-        for (int i = 0; i < remainProcent; i++) {
-            bareDone.append(icon);
+        String str_load = "#";
+        String str_progress = new String(new char[maxPer]).replace('\0', defaultChar) + "]";
+        StringBuilder str_done = new StringBuilder();
+        str_done.append(work + " [");
+        for (int i = 0; i < remainPer; i++) {
+            str_done.append(str_load);
         }
-        String bareRemain = bare.substring(remainProcent, bare.length());
-        System.out.print("\r" + bareDone + bareRemain + " " + remainProcent * (100/maxBareSize) + "%");
+        String str_remain = str_progress.substring(remainPer, str_progress.length());
+        System.out.print("\r" + str_done + str_remain + " " + remainPer * (100/maxPer) + "%");
         if (remain == total) {
             System.out.print("\n");
         }
