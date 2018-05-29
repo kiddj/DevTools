@@ -1,8 +1,31 @@
-public class Main{
-	public static void main(String args[]){
-		User test =  new User();
-		Sysinfo systest = new Sysinfo();
+import java.util.Scanner;
 
-		systest.readInfo();
+public class Main{
+	private static Scanner input = new Scanner(System.in);
+	private static User user =  new User();
+	private static String uid, pwd;
+
+	public static void main(String args[]){
+        Sysinfo systest = new Sysinfo();
+		do {
+			promptLogin();
+		}
+		while(!user.Login(uid, pwd));
+
+        systest.readInfo();
+		displayMenu();
+	}
+
+	public static void displayMenu() {
+		System.out.println("1. Display x");
+		System.out.println("2. Change Password");
+		//etc...
+	}
+
+	public static void promptLogin() {
+		System.out.print("ID : ");
+		uid = input.nextLine();
+		System.out.print("Password : ");
+		pwd = input.nextLine();
 	}
 }
