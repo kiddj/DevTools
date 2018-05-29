@@ -1,3 +1,4 @@
+import java.io.IOException;
 import java.util.Scanner;
 
 public class Main{
@@ -5,14 +6,16 @@ public class Main{
 	private static User user =  new User();
 	private static String uid, pwd;
 
-	public static void main(String args[]){
+	public static void main(String args[]) throws Exception{
+
         Sysinfo systest = new Sysinfo();
+        systest.readInfo();
+
 		do {
 			promptLogin();
 		}
 		while(!user.Login(uid, pwd));
 
-        systest.readInfo();
 		displayMenu();
 	}
 

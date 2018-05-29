@@ -42,12 +42,13 @@ public class Sysinfo {
     }
 
     public static void getInstalledList(int bit) {
-        String loading = new String();
         try {
             String reg_path = bit==64?REG_INSTALLED_PATH_64:REG_INSTALLED_PATH_32;
             String install_path = bit==64?INSTALLED_PATH_64:INSTALLED_PATH_32;
+            String str_working = bit==64?"Load 64-bit Installed Software":"Load 32-bit Installed Software";
             Process process = Runtime.getRuntime().exec(install_path);
             StreamReader reader = new StreamReader(process.getInputStream());
+            ProgressBar p_loadSW = new ProgressBar(str_working);
 
             reader.start();
             process.waitFor();
@@ -65,9 +66,9 @@ public class Sysinfo {
                 tmp_info.version = getName(install_path + "\\" + sw + "\" /v DisplayVersion");
                 if(tmp_info.version == null) tmp_info.version = "Unknown version";
                 list_sw.add(tmp_info);
-//                System.out.println("Add!");
-                loading = new String(new char[(int)(100 * ((double)i/ tmp_list.length))]).replace("\0", "#");
-                System.out.println(loading);
+                p_loadSW.load(i, tmp_list.length - 1);
+                //loading = new String(new char[(int)(100 * ((double)i/ tmp_list.length))]).replace("\0", "#");
+                //System.out.println(loading);
             }
 //            list_sw.addAll(Arrays.asList(tmp_list));
         } catch (Exception e) {
