@@ -4,7 +4,6 @@ import java.util.Arrays;
 import java.util.List;
 
 public class Sysinfo {
-
     private static List<SWinfo> list_sw = new ArrayList<SWinfo>();
     private static final String REGQUERY_UTIL = "reg query ";
     private static final String REGSTR_TOKEN = "REG_SZ";
@@ -56,21 +55,18 @@ public class Sysinfo {
 
             String result = reader.getResult();
             String result_sw = result.replace(reg_path,"");
-//            System.out.printf("Result : %s %d\n",result_sw,bit);
             String[] tmp_list = result_sw.split("[\\r\\n]+");
             for (int i = 0; i < tmp_list.length; i++) {
                 String sw = tmp_list[i];
                 SWinfo tmp_info = new SWinfo();
                 tmp_info.name = getName(install_path + "\\" + sw + "\" /v DisplayName");
                 if(tmp_info.name == null) continue;
+                tmp_info.name = new String(tmp_info.name.getBytes("iso-8859-1"),"EUC-KR");
                 tmp_info.version = getName(install_path + "\\" + sw + "\" /v DisplayVersion");
                 if(tmp_info.version == null) tmp_info.version = "Unknown version";
                 list_sw.add(tmp_info);
                 p_loadSW.load(i, tmp_list.length - 1);
-                //loading = new String(new char[(int)(100 * ((double)i/ tmp_list.length))]).replace("\0", "#");
-                //System.out.println(loading);
             }
-//            list_sw.addAll(Arrays.asList(tmp_list));
         } catch (Exception e) {
             System.out.println(e);
         }

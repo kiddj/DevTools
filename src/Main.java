@@ -1,4 +1,5 @@
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.Scanner;
 
 public class Main{
@@ -6,8 +7,23 @@ public class Main{
 	private static User user =  new User();
 	private static String uid, pwd;
 
-	public static void main(String args[]) throws Exception{
+	//Test all encoding type
+	public static void encoding_test(String str){
+		String originalStr = str;
+		String [] charSet = {"utf-8","euc-kr","ksc5601","iso-8859-1","x-windows-949"};
 
+		for (int i=0; i<charSet.length; i++) {
+			for (int j=0; j<charSet.length; j++) {
+				try {
+					System.out.println("[" + charSet[i] +"," + charSet[j] +"] = " + new String(originalStr.getBytes(charSet[i]), charSet[j]));
+				} catch (UnsupportedEncodingException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+
+	public static void main(String args[]) throws Exception{
         Sysinfo systest = new Sysinfo();
         systest.readInfo();
 
