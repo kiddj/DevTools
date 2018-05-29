@@ -1,5 +1,7 @@
 # DevTools
-Backup your development environment.
+Store your development environment.
+
+Tested only in Windows 64-bit environment.
 
 # Setup
 
