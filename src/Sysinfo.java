@@ -7,7 +7,7 @@ public class Sysinfo {
     private static List<SWinfo> list_sw = new ArrayList<SWinfo>();
     private static final String REGQUERY_UTIL = "reg query ";
     private static final String REGSTR_TOKEN = "REG_SZ";
-    private static final String REGDWORD_TOKEN = "REG_DWORD";
+    //private static final String REGDWORD_TOKEN = "REG_DWORD";
 
     private static final String REG_INSTALLED_PATH_64 = "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\";
     private static final String INSTALLED_PATH_64 = REGQUERY_UTIL +
@@ -44,7 +44,7 @@ public class Sysinfo {
         try {
             String reg_path = bit==64?REG_INSTALLED_PATH_64:REG_INSTALLED_PATH_32;
             String install_path = bit==64?INSTALLED_PATH_64:INSTALLED_PATH_32;
-            String str_working = bit==64?"Load 64-bit Installed Software...":"Load 32-bit Installed Software...";
+            String str_working = bit==64?"Load Installed Software(64-bit)...":"Load Installed Software(32-bit)...";
             Process process = Runtime.getRuntime().exec(install_path);
             StreamReader reader = new StreamReader(process.getInputStream());
             ProgressBar p_loadSW = new ProgressBar(str_working);
