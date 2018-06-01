@@ -1,4 +1,4 @@
-import java.io.IOException;
+import java.io.Console;
 import java.io.UnsupportedEncodingException;
 import java.util.Scanner;
 
@@ -24,9 +24,6 @@ public class Main{
 	}
 
 	public static void main(String args[]) throws Exception{
-        Sysinfo systest = new Sysinfo();
-        systest.readInfo();
-
 		do {
 			promptLogin();
 		}
@@ -44,7 +41,18 @@ public class Main{
 	public static void promptLogin() {
 		System.out.print("ID : ");
 		uid = input.nextLine();
-		System.out.print("Password : ");
-		pwd = input.nextLine();
+		pwd = getPassword();
 	}
+	
+	public static String getPassword() {        
+	    Console console = System.console();
+	    if (console == null) {
+	        System.out.println("Couldn't get Console instance");
+	        System.exit(0);
+	    }
+
+	    char passwordArray[] = console.readPassword("Password: ");
+	    return new String(passwordArray);
+	}
+	
 }

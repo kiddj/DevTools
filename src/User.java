@@ -13,7 +13,7 @@ public class User{
 	public User() {
 		try {
 		Class.forName("com.mysql.cj.jdbc.Driver");
-		conn = DriverManager.getConnection("jdbc:mysql://211.249.61.207/DevTools?serverTimezone=UTC", "devtools", "tlftmq1");
+		conn = DriverManager.getConnection("jdbc:mysql://211.249.61.207/DevTools?serverTimezone=UTC&useSSL=false", "devtools", "tlftmq1");
 		//System.out.println("Database Connected");
 		md = MessageDigest.getInstance("SHA-256");
 		} catch(Exception e) {
