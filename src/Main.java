@@ -187,7 +187,7 @@ public class Main{
         Console console = System.console();
 
         if (console == null) {
-            System.out.println(" ! Fail to Mask your Password :( - Couldn't get Console instance");
+            System.out.println(" Failed to Mask your Password :( - Couldn't get Console instance");
 //	        System.exit(0);
             System.out.print(" Enter Password: ");
             String passwordString = input.nextLine();

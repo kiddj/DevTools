@@ -98,7 +98,7 @@ public class User{
 				System.out.println("Welcome "+rs.getString("name")+"!\n");
 				return rs.getInt("auth");
 		  } else{
-			Cprint.e(" Login failed: Please check your ID and Password\n");
+			Cprint.e("Login failed: Please check your ID and Password\n");
 		  	//System.out.println(" Login failed: Please check your ID and Password\n");
 		  	return 0;
 		  }
