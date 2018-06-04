@@ -2,6 +2,9 @@ import java.io.Console;
 import java.io.UnsupportedEncodingException;
 import java.util.Scanner;
 
+//TODO
+//Devtools Sorting
+
 public class Main{
 	private static Scanner input = new Scanner(System.in);
 	private static User user =  new User();
@@ -39,15 +42,24 @@ public class Main{
 		System.out.println("4. Show Added Tools");
 		System.out.println("5. Search Tools");
 		System.out.println("6. Delete Record");
-		switch(input.nextInt()){
-			case 1: break;
-			case 2: break;
-			case 3: break;
-			case 4: break;
-			case 5: break;
-			case 6: break;
-			default: System.out.println("You've entered a wrong number");break;
+		switch (input.nextInt()) {
+			case 1:
+				break;
+			case 2:
+				break;
+			case 3:
+				break;
+			case 4:
+				break;
+			case 5:
+				break;
+			case 6:
+				break;
+			default:
+				System.out.println("You've entered a wrong number");
+				break;
 		}
+	}
 		
 	public static void promptLogin() {
 		System.out.print("ID : ");
@@ -55,14 +67,19 @@ public class Main{
 		pwd = getPassword();
 	}
 	
-	public static String getPassword() {        
+	public static String getPassword() {
+		char passwordArray[] = null;
 	    Console console = System.console();
-	    if (console == null) {
-	        System.out.println("Couldn't get Console instance");
-	        System.exit(0);
-	    }
 
-	    char passwordArray[] = console.readPassword("Password: ");
+	    if (console == null) {
+	        System.out.println("Fail to Mask your Password :( - Couldn't get Console instance");
+//	        System.exit(0);
+			System.out.print("PW : ");
+			String passwordString = input.nextLine();
+			return passwordString;
+		}
+
+		passwordArray = console.readPassword("Password: ");
 	    return new String(passwordArray);
 	}
 	
