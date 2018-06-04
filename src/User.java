@@ -35,7 +35,7 @@ public class User{
 			pwd = bytesToHex(md.digest());
 			stmt.setString(2,  pwd);
 
-			if(sex.indexOf("female")>=0) stmt.setString(3, "1");
+			if(sex.toLowerCase().indexOf("f")>=0) stmt.setString(3, "1");
 			else{
 				stmt.setString(3, "2");
 			}
@@ -51,7 +51,7 @@ public class User{
 		}
 	}
 
-	public Boolean Login(String uid, String pwd){
+	public int Login(String uid, String pwd){
 		ResultSet rs = null;
 		PreparedStatement stmt = null;
 		try {
@@ -68,15 +68,15 @@ public class User{
 			if(rs.next()){
 				System.out.println("\n*****************************************************");
 				System.out.println("Welcome "+rs.getString("name")+"!\n");
-				return true;
+				return rs.getInt("auth");
 		  } else{
 		  	System.out.println("Login failed: Please check your ID and Password\n");
-		  	return false;
+		  	return 0;
 		  }
 		} catch(Exception e) {
 			System.out.println(e);
 			System.out.println("Error occured");
-			return false;
+			return 0;
 		}
 	}
 

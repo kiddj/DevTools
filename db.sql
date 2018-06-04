@@ -6,6 +6,7 @@ CREATE TABLE User(
 	pwd VARCHAR(64) NOT NULL,
 	sex INTEGER(1),
 	name VARCHAR(10) NOT NULL,
+	auth INTEGER(1),
 	PRIMARY KEY (uid)
 );
 
