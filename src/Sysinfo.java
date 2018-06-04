@@ -1,7 +1,5 @@
 import java.io.*;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 public class Sysinfo {
     private static List<SWinfo> list_sw = new ArrayList<SWinfo>();
@@ -57,6 +55,7 @@ public class Sysinfo {
             String result_sw = result.replace(reg_path,"");
             String[] tmp_list = result_sw.split("[\\r\\n]+");
             for (int i = 0; i < tmp_list.length; i++) {
+                p_loadSW.load(i, tmp_list.length - 1);
                 String sw = tmp_list[i];
                 SWinfo tmp_info = new SWinfo();
                 tmp_info.name = getName(install_path + "\\" + sw + "\" /v DisplayName");
@@ -65,7 +64,6 @@ public class Sysinfo {
                 tmp_info.version = getName(install_path + "\\" + sw + "\" /v DisplayVersion");
                 if(tmp_info.version == null) tmp_info.version = "Unknown version";
                 list_sw.add(tmp_info);
-                p_loadSW.load(i, tmp_list.length - 1);
             }
         } catch (Exception e) {
             System.out.println(e);
@@ -98,8 +96,19 @@ public class Sysinfo {
     public static void readInfo() {
         getInstalledList(64);
         getInstalledList(32);
+
+        Ascending ascending = new Ascending();
+        Collections.sort(list_sw, ascending);
         for(SWinfo installed_sw : list_sw){
             System.out.printf("%s (%s)\n",installed_sw.name,installed_sw.version);
+        }
+    }
+
+    // Sorting Override
+    private static class Ascending implements Comparator<SWinfo> {
+        @Override
+        public int compare(SWinfo s1, SWinfo s2) {
+            return s1.name.compareTo(s2.name);
         }
     }
 }

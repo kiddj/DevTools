@@ -27,7 +27,7 @@ public class Main{
 	}
 
 	public static void main(String args[]) throws Exception{
-		int user_choice = -1;
+        displayLogo();
 
 		// Login
 	    do {
@@ -36,7 +36,8 @@ public class Main{
 		while(!user.Login(uid, pwd));
 
 	    // Select Menu
-		while(user_choice != 0){
+        int user_choice = -1;
+        while(user_choice != 0){
             user_choice = displayMenu();
             switch (user_choice) {
                 case 0:
@@ -51,9 +52,12 @@ public class Main{
                     break;
                 case 4:
                     break;
-                case 5:
+                case 5: // Search/Add Installed Tools
+                    ManageTools.SearchAdd();
                     break;
                 case 6:
+                    break;
+                case 7:
                     break;
                 default:
                     System.out.println("You've entered a wrong number");
@@ -66,16 +70,23 @@ public class Main{
 		System.exit(0);
 	}
 
+	public static void displayLogo() {
+	    System.out.println(" _____ _____ _____ _____ _____ _____ __    _____ ");
+        System.out.println("|     |   __|  |  |_   _|     |     |  |  |   __|");
+        System.out.println("|  |  |   __|  |  | | | |  |  |  |  |  |__|__   |  {version : 0.1.0}");
+        System.out.println("|____/|_____|____/  |_| |_____|_____|_____|_____|  github.com/kiddj/DevTools\n");
+    }
+
 	public static int displayMenu() {
-		System.out.println("------------ Your Info -------------");
+		System.out.println("\n------------ Your Info -------------");
 		System.out.println("1. Display User Information");
 		System.out.println("2. Change Password");
-		System.out.println("------ Your Development Tools ------");
+		System.out.println("\n------ Your Development Tools ------");
 		System.out.println("3. Show Saved Tools");
 		System.out.println("4. Add Tools Manually");
 		System.out.println("5. Search/Add Installed Tools");
 		System.out.println("6. Restore your Tools");
-		System.out.println("----------- Warning Zone -----------");
+		System.out.println("\n----------- Warning Zone -----------");
 		System.out.println("7. Delete Record");
 		System.out.println("0. Exit");
 		System.out.println("------------------------------------");
