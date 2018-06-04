@@ -33,11 +33,22 @@ public class Main{
 	}
 
 	public static void displayMenu() {
-		System.out.println("1. Display x");
+		System.out.println("1. Display User Information");
 		System.out.println("2. Change Password");
-		//etc...
-	}
-
+		System.out.println("3. Add Development Tools");
+		System.out.println("4. Show Added Tools");
+		System.out.println("5. Search Tools");
+		System.out.println("6. Delete Record");
+		switch(input.nextInt()){
+			case 1: break;
+			case 2: break;
+			case 3: break;
+			case 4: break;
+			case 5: break;
+			case 6: break;
+			default: System.out.println("You've entered a wrong number");break;
+		}
+		
 	public static void promptLogin() {
 		System.out.print("ID : ");
 		uid = input.nextLine();
