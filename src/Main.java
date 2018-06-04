@@ -110,11 +110,11 @@ public class Main{
 	}
 
 	private static void displayLogo() {
-	  System.out.println(" _____ _____ _____ _____ _____ _____ __    _____ ");
+	System.out.println(" _____ _____ _____ _____ _____ _____ __    _____ ");
     System.out.println("|     |   __|  |  |_   _|     |     |  |  |   __|");
     System.out.println("|  |  |   __|  |  | | | |  |  |  |  |  |__|__   |  {version : 0.1.0}");
     System.out.println("|____/|_____|____/  |_| |_____|_____|_____|_____|  github.com/kiddj/DevTools\n");
-  }
+  	}
 
   private static void Login(){
   	// Login
@@ -185,9 +185,9 @@ public class Main{
 	    Console console = System.console();
 
 	    if (console == null) {
-	        System.out.println("Fail to Mask your Password :( - Couldn't get Console instance");
+	        System.out.println("Failed to Mask your Password :( - Couldn't get Console instance");
 //	        System.exit(0);
-			System.out.print("PW : ");
+			System.out.print("Password: ");
 			String passwordString = input.nextLine();
 			return passwordString;
 		}
