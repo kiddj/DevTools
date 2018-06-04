@@ -59,8 +59,7 @@ public class User{
 	    	        + " WHERE uid=? and pwd=?");
 			stmt.setString(1,  uid);
 			//apply SHA-256
-			md.update(pwd.getBytes());
-			
+			md.update(pwd.getBytes()) ;
 			pwd = bytesToHex(md.digest());
 			stmt.setString(2,  pwd);
 			rs = stmt.executeQuery();
@@ -115,6 +114,34 @@ public class User{
 			}
 		}else {
 			return false;
+		}
+	}
+
+	public void printInfo(String uid){
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		try {
+			System.out.println("\n------------------------------------");
+
+		  stmt = conn.prepareStatement(
+	    	        "SELECT uid,name,sex from User "
+	    	        + "WHERE uid = ?");
+			stmt.setString(1,  uid);
+			rs = stmt.executeQuery();
+			
+			if(rs.next()){
+				System.out.println("Name: " + rs.getString("name") + "\n");
+				System.out.println("Id: " + rs.getString("uid") + "\n");
+				String sex = "";
+				if(rs.getInt("sex") == 1) sex = "Female";
+				else sex = "Male";
+				System.out.println("Sex: " + sex);
+				System.out.println("\n------------------------------------");
+				System.out.println("");
+			}
+		} catch(Exception e) {
+			System.out.println(e);
+			System.out.println("Failed. Please contact system administrator");
 		}
 	}
 	

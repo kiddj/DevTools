@@ -42,6 +42,7 @@ public class Main{
                 case 0:
                     continue;
                 case 1:
+                	user.printInfo(uid);
                     break;
                 case 2:
                     break;
