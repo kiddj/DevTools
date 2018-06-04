@@ -143,30 +143,47 @@ public class User{
 
 	public void printInfo(String uid){
 		PreparedStatement stmt = null;
+		String sex = "", level = "";
 		ResultSet rs = null;
 		try {
 			System.out.println("\n------------------------------------");
 
-		  stmt = conn.prepareStatement(
-	    	        "SELECT uid,name,sex from User "
+			stmt = conn.prepareStatement(
+	    	        "SELECT * from User "
 	    	        + "WHERE uid = ?");
 			stmt.setString(1,  uid);
 			rs = stmt.executeQuery();
-			
+
 			if(rs.next()){
-				System.out.println("Name: " + rs.getString("name") + "\n");
-				System.out.println("Id: " + rs.getString("uid") + "\n");
-				String sex = "";
-				if(rs.getInt("sex") == 1) sex = "Female";
-				else sex = "Male";
-				System.out.println("Sex: " + sex);
-				System.out.println("\n------------------------------------");
-				System.out.println("");
+				String whereClause = "";
+				if(rs.getInt("auth") == 1){
+			  	stmt = conn.prepareStatement(
+		    	        "SELECT uid,name,sex,auth from User "
+		    	        + "WHERE uid = ?");
+					stmt.setString(1,  uid);
+				} else{
+					stmt = conn.prepareStatement("SELECT uid,name,sex,auth from User");
+				}
+				rs = stmt.executeQuery();
+				
+				while(rs.next()){
+					System.out.println("Name: " + rs.getString("name") + "\n");
+					System.out.println("Id: " + rs.getString("uid") + "\n");
+					if(rs.getInt("sex") == 1) sex = "Female";
+					else sex = "Male";
+					System.out.println("Sex: " + sex + "\n");
+					if(rs.getInt("auth") == 1) level = "General";
+					else level = "Admin";
+					System.out.println("User Type: " + level);
+					System.out.println("\n------------------------------------");
+					System.out.println("");
+				}
 			}
 		} catch(Exception e) {
 			System.out.println(e);
 			System.out.println("Failed. Please contact system administrator");
 		}
+
 	}
 	
 	private static String bytesToHex(byte[] hash) {
