@@ -1,6 +1,9 @@
 import java.io.Console;
 import java.io.UnsupportedEncodingException;
 import java.util.Scanner;
+import org.fusesource.jansi.AnsiConsole;
+import static org.fusesource.jansi.Ansi.Color.*;
+import static org.fusesource.jansi.Ansi.ansi;
 
 //TODO
 //Devtools Sorting
@@ -29,6 +32,8 @@ public class Main{
     }
 
     public static void main(String args[]) throws Exception{
+        AnsiConsole.systemInstall( );
+        System.out.print(ansi().eraseScreen());
         displayLogo();
 
         // Select Menu
@@ -48,7 +53,7 @@ public class Main{
                     Register();
                     break;
                 default:
-                    System.out.println(" You've entered a wrong number");
+                    Cprint.e(" You've entered a wrong number");
                     break;
             }
         }
@@ -77,10 +82,12 @@ public class Main{
                     case 6:
                         break;
                     case 7:
+                        break;
+                    case 8: // Delete Record
                         if(user.Delete(uid)) System.exit(0);
                         else break;
                     default:
-                        System.out.println(" You've entered a wrong number");
+                        Cprint.e(" You've entered a wrong number");
                         break;
                 }
             }
@@ -99,7 +106,7 @@ public class Main{
                     case 2:
                         break;
                     default:
-                        System.out.println(" You've entered a wrong number");
+                        Cprint.e(" You've entered a wrong number");
                         break;
                 }
             }
@@ -111,10 +118,11 @@ public class Main{
     }
 
     private static void displayLogo() {
-        System.out.println("  _____ _____ _____ _____ _____ _____ __    _____ ");
-        System.out.println(" |     |   __|  |  |_   _|     |     |  |  |   __|");
-        System.out.println(" |  |  |   __|  |  | | | |  |  |  |  |  |__|__   |  {version : " + str_ver + "}");
-        System.out.println(" |____/|_____|____/  |_| |_____|_____|_____|_____|  github.com/kiddj/DevTools\n");
+//        System.out.print(ansi().eraseScreen());
+        Cprint.w("  _____ _____ _____ _____ _____ _____ __    _____ ");
+        Cprint.w(" |     |   __|  |  |_   _|     |     |  |  |   __|");
+        Cprint.w(" |  |  |   __|  |  | | | |  |  |  |  |  |__|__   |  {version : " + str_ver + "}");
+        Cprint.w(" |____/|_____|____/  |_| |_____|_____|_____|_____|  github.com/kiddj/DevTools\n");
     }
 
     private static void Login(){
@@ -127,19 +135,24 @@ public class Main{
     }
 
     private static void Register(){
-        String name, uid, pw, cpw, s;
+        int pw_check = 0;
+        String name, uid, pw = null, cpw, s;
+//        System.out.println("\n ---------- Register ----------");
         System.out.print(" Name : ");
         name = input.nextLine();
         System.out.print(" ID : ");
         uid = input.nextLine();
-        pw = getPassword();
-        System.out.print(" Confirm ");
-        cpw = getPassword();
+        while(pw_check != 1){
+            System.out.print(" Password: ");
+            pw = getPassword();
+            System.out.print(" Confirm Password: ");
+            cpw = getPassword();
+            if(pw.equals(cpw)) pw_check = 1;
+            else Cprint.e(" The passwords you've entered do not match\n");
+        }
         System.out.print(" Sex (M,F) : ");
         s = input.nextLine();
-
-        if(pw.equals(cpw)) user.Register(uid, pw, s, name);
-        else System.out.println(" The passwords you've entered do not match\n");
+        user.Register(uid, pw, s, name);
     }
 
     private static int displayLoginMenu() {
@@ -153,7 +166,8 @@ public class Main{
     }
 
     private static int displayMenu() {
-        System.out.println(" DevTools " + str_ver);
+//        System.out.println(" DevTools " + str_ver);
+        displayLogo();
         System.out.println("┌--------------------------------┬---------------------------------┐");
         System.out.println("│            Your Info           │     Manage Development Tools    │");
         System.out.println("├--------------------------------┼---------------------------------┤");
@@ -161,8 +175,9 @@ public class Main{
         System.out.println("│ 2. Change Password             │ 4. Add Tools Manually           │");
         System.out.println("│                                │ 5. Search/Add Installed Tools   │");
         System.out.println("│                                │ 6. Restore your Tools           │");
+        System.out.println("│                                │ 7. Add [Tool Template]          │");
         System.out.println("├--------------------------------┼---------------------------------┤");
-        System.out.println("│       ## Warning Zone ##       │ 7. Delete Record        0. Exit │");
+        System.out.println("│       ## Warning Zone ##       │ 8. Delete Record        0. Exit │");
         System.out.println("└--------------------------------┴---------------------------------┘");
         System.out.print(" Select: ");
         return input.nextInt();
@@ -177,9 +192,11 @@ public class Main{
         return input.nextInt();
     }
 
-    private static void promptLogin() {
-        System.out.print(" Enter ID: ");
-        uid = input.nextLine();
+        private static void promptLogin() {
+//            System.out.println("\n ---------- Login ----------");
+            System.out.print(" Enter ID: ");
+            uid = input.nextLine();
+            System.out.print(" Enter Password: ");
         pwd = getPassword();
     }
 
@@ -187,14 +204,13 @@ public class Main{
         Console console = System.console();
 
         if (console == null) {
-            System.out.println(" Failed to Mask your Password :( - Couldn't get Console instance");
+            Cprint.e(" Failed to Mask your Password :( - Couldn't get Console instance");
 //	        System.exit(0);
-            System.out.print(" Enter Password: ");
             String passwordString = input.nextLine();
             return passwordString;
         }
 
-        char[] passwordArray = console.readPassword(" Enter Password: ");
+        char[] passwordArray = console.readPassword("");
         return new String(passwordArray);
     }
 

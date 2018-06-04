@@ -2,7 +2,7 @@ public class ProgressBar {
     private static String work;
 
     public ProgressBar(String name){
-        work = name;
+        work = " " + name;
     }
 
     public static void load(int remain, int total) {
@@ -10,7 +10,7 @@ public class ProgressBar {
             throw new IllegalArgumentException();
         }
 
-        int maxPer = 100;
+        int maxPer = 20;
         int remainPer = (int)(maxPer * (((double)remain / total)));
         char defaultChar = ' ';
 

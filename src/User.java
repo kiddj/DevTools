@@ -19,14 +19,14 @@ public class User{
 		//System.out.println("Database Connected");
 		md = MessageDigest.getInstance("SHA-256");
 		} catch(Exception e) {
-			System.out.println("Database Connection Error");
-			System.out.println(e);
+			Cprint.e(" Error occurs: " + e);
+			Cprint.e(" Database Connection Error");
 		}
 	}
 
 	public Boolean Delete(String uid){
 		//Confirm
-		System.out.print("Are you sure you want to delete your account? (y,n): ");
+		Cprint.e(" Are you sure you want to delete your account? (y,n): ","");
 		String cfm = input.nextLine().toLowerCase();
 
 		if(cfm.equals("y")){
@@ -37,13 +37,12 @@ public class User{
 		    	        + " WHERE uid = ?");
 				stmt.setString(1,  uid);
 				stmt.executeUpdate();
-
-				System.out.println("User information successfully deleted. Thank you for using our service.");
+				Cprint.w(" User information successfully deleted. Thank you for using our service.");
 				return true;
 				
 			} catch(Exception e) {
-				System.out.println(e);
-				System.out.println("\nFailed. Please contact system administrator\n");
+                Cprint.e(" Error occurs: " + e);
+				Cprint.e("\n Failed. Please contact system administrator\n");
 				return false;	
 			}
 		} else{
@@ -69,12 +68,11 @@ public class User{
 			}
 			stmt.setString(4,name);
 			stmt.executeUpdate();
-			System.out.println("You've successfully registered to DevTools");
+			Cprint.i(" You've successfully registered to DevTools\n");
 			return true;
-			
 		} catch(Exception e) {
-			System.out.println(e);
-			System.out.println("\nRegistration Failed. Please contact system administrator\n");
+			Cprint.e(" Error occurs: " + e);
+			Cprint.e(" Registration Failed. Please contact system administrator\n");
 			return false;
 		}
 	}
@@ -94,16 +92,14 @@ public class User{
 			rs = stmt.executeQuery();
 
 			if(rs.next()){
-				System.out.println("---------- [Login Success] ----------");
-				System.out.println("Welcome "+rs.getString("name")+"!\n");
+				Cprint.i("\n Welcome "+rs.getString("name")+"!\n");
 				return rs.getInt("auth");
 		  } else{
-			Cprint.e("Login failed: Please check your ID and Password\n");
-		  	//System.out.println(" Login failed: Please check your ID and Password\n");
+			Cprint.e(" Login failed: Please check your ID and Password");
 		  	return 0;
 		  }
 		} catch(Exception e) {
-			System.out.println(" Error occurs: " + e);
+			Cprint.e(" Error occurs: " + e);
 			return 0;
 		}
 	}
@@ -111,13 +107,14 @@ public class User{
 	public Boolean changePassword(String uid) {
 		PreparedStatement stmt = null;
 
-		System.out.print("New Password :: ");
+//		System.out.println(" ---------- Change Password ----------");
+		System.out.print(" New Password : ");
 		String newPwd = getPassword();
-		System.out.print("Confirm New Password :: ");
+		System.out.print(" Confirm New Password : ");
 		String confirmPwd = getPassword();
 			
 		if(!newPwd.equals(confirmPwd)) {
-			System.out.println("Error: Passwords you have entered do not match\n");
+			Cprint.e(" Error: Passwords you have entered do not match\n");
 			return false;
 		}
 			
@@ -133,10 +130,10 @@ public class User{
 			stmt.setString(2, uid);
 			stmt.executeUpdate();
 
-			System.out.println(" Password successfully changed\n");
+			Cprint.i(" Password successfully changed\n");
 			return true;
 		} catch(Exception e) {
-			System.out.println(" Error occurs: " + e);
+			Cprint.e(" Error occurs: " + e);
 			return false;
 		}
 	}
@@ -147,7 +144,6 @@ public class User{
 		ResultSet rs = null;
 		try {
 			System.out.println("\n------------------------------------");
-
 			stmt = conn.prepareStatement(
 	    	        "SELECT * from User "
 	    	        + "WHERE uid = ?");
@@ -200,9 +196,8 @@ public class User{
 	    Console console = System.console();
 
 	    if (console == null) {
-	        System.out.println(" ! Fail to Mask your Password :( - Couldn't get Console instance");
+	        Cprint.e(" Failed to Mask your Password :( - Couldn't get Console instance");
 //	        System.exit(0);
-			System.out.print(" Password: ");
 			String passwordString = input.nextLine();
 			return passwordString;
 		}

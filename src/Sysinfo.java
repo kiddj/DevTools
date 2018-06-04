@@ -97,8 +97,12 @@ public class Sysinfo {
         getInstalledList(64);
         getInstalledList(32);
 
+        // Sorting
         Ascending ascending = new Ascending();
         Collections.sort(list_sw, ascending);
+    }
+
+    public static void printInfo(){
         for(SWinfo installed_sw : list_sw){
             System.out.printf("%s (%s)\n",installed_sw.name,installed_sw.version);
         }
