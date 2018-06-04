@@ -22,6 +22,33 @@ public class User{
 			System.out.println(e);
 		}
 	}
+
+	public Boolean Delete(String uid){
+		//Confirm
+		System.out.print("Are you sure you want to delete your account? (y,n): ");
+		String cfm = input.nextLine().toLowerCase();
+
+		if(cfm.equals("y")){
+			PreparedStatement stmt = null;
+			try {
+			    stmt = conn.prepareStatement(
+		    	        "DELETE FROM User"
+		    	        + " WHERE uid = ?");
+				stmt.setString(1,  uid);
+				stmt.executeUpdate();
+
+				System.out.println("User information successfully deleted. Thank you for using our service.");
+				return true;
+				
+			} catch(Exception e) {
+				System.out.println(e);
+				System.out.println("\nFailed. Please contact system administrator\n");
+				return false;	
+			}
+		} else{
+			return false;
+		}
+	}
 	
 	public Boolean Register(String uid, String pwd, String sex, String name){
 		PreparedStatement stmt = null;

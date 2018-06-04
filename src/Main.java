@@ -76,7 +76,8 @@ public class Main{
 	            case 6:
 	                break;
 	            case 7:
-	                break;
+	            	if(user.Delete(uid)) System.exit(0);
+	              else break;
 	            default:
 	                System.out.println("You've entered a wrong number");
 	                break;
