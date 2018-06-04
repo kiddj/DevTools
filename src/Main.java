@@ -65,12 +65,18 @@ public class Main{
 	}
 
 	public static int displayMenu() {
+		System.out.println("------------ Your Info -------------");
 		System.out.println("1. Display User Information");
 		System.out.println("2. Change Password");
-		System.out.println("3. Add Development Tools");
-		System.out.println("4. Show Added Tools");
-		System.out.println("5. Search Tools");
-		System.out.println("6. Delete Record");
+		System.out.println("------ Your Development Tools ------");
+		System.out.println("3. Show Saved Tools");
+		System.out.println("4. Add Tools Manually");
+		System.out.println("5. Search/Add Installed Tools");
+		System.out.println("6. Restore your Tools");
+		System.out.println("----------- Warning Zone -----------");
+		System.out.println("7. Delete Record");
+		System.out.println("0. Exit");
+		System.out.println("------------------------------------");
 		return input.nextInt();
 	}
 		
@@ -81,7 +87,6 @@ public class Main{
 	}
 	
 	public static String getPassword() {
-		char passwordArray[] = null;
 	    Console console = System.console();
 
 	    if (console == null) {
@@ -92,7 +97,7 @@ public class Main{
 			return passwordString;
 		}
 
-		passwordArray = console.readPassword("Password: ");
+		char[] passwordArray = console.readPassword("Password: ");
 	    return new String(passwordArray);
 	}
 	
