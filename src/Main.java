@@ -34,7 +34,6 @@ public class Main{
     public static void main(String args[]) throws Exception{
         AnsiConsole.systemInstall( );
         System.out.print(ansi().eraseScreen());
-        displayLogo();
 
         // Select Menu
         int user_choice = -1;
@@ -155,6 +154,7 @@ public class Main{
     }
 
     private static int displayLoginMenu() {
+        displayLogo();
         System.out.println("┌-------------------------------┐");
         System.out.println("│ 1. Login                      │");
         System.out.println("│ 2. Register                   │");
