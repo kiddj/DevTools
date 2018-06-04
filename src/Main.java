@@ -27,38 +27,51 @@ public class Main{
 	}
 
 	public static void main(String args[]) throws Exception{
-		do {
+		int user_choice = -1;
+
+		// Login
+	    do {
 			promptLogin();
 		}
 		while(!user.Login(uid, pwd));
 
-		displayMenu();
+	    // Select Menu
+		while(user_choice != 0){
+            user_choice = displayMenu();
+            switch (user_choice) {
+                case 0:
+                    continue;
+                case 1:
+                    break;
+                case 2:
+                    break;
+                case 3:
+                    break;
+                case 4:
+                    break;
+                case 5:
+                    break;
+                case 6:
+                    break;
+                default:
+                    System.out.println("You've entered a wrong number");
+                    break;
+            }
+        }
+
+        //Terminate => Maybe backup automatically...
+        System.out.println("Thank you");
+		System.exit(0);
 	}
 
-	public static void displayMenu() {
+	public static int displayMenu() {
 		System.out.println("1. Display User Information");
 		System.out.println("2. Change Password");
 		System.out.println("3. Add Development Tools");
 		System.out.println("4. Show Added Tools");
 		System.out.println("5. Search Tools");
 		System.out.println("6. Delete Record");
-		switch (input.nextInt()) {
-			case 1:
-				break;
-			case 2:
-				break;
-			case 3:
-				break;
-			case 4:
-				break;
-			case 5:
-				break;
-			case 6:
-				break;
-			default:
-				System.out.println("You've entered a wrong number");
-				break;
-		}
+		return input.nextInt();
 	}
 		
 	public static void promptLogin() {
