@@ -113,7 +113,6 @@ public class Main{
         }
 
         //Terminate => Maybe backup automatically...
-        System.out.println("Thank you");
         System.exit(0);
     }
 
@@ -161,7 +160,7 @@ public class Main{
         System.out.println("│ 2. Register                   │");
         System.out.println("│ 0. Exit                       │");
         System.out.println("└-------------------------------┘");
-        System.out.print(" Select: ");
+        System.out.print(" Select > ");
         return input.nextInt();
     }
 
@@ -179,16 +178,18 @@ public class Main{
         System.out.println("├--------------------------------┼---------------------------------┤");
         System.out.println("│       ## Warning Zone ##       │ 8. Delete Record        0. Exit │");
         System.out.println("└--------------------------------┴---------------------------------┘");
-        System.out.print(" Select: ");
+        System.out.print(" Select > ");
         return input.nextInt();
     }
 
     private static int displayAdminMenu() {
-        System.out.println("------------------------------------");
-        System.out.println("1. Display All User Information");
-        System.out.println("2. Add Template");
-        System.out.println("0. Exit");
-        System.out.println("------------------------------------\n");
+        displayLogo();
+        System.out.println("┌-------------------------------┐");
+        System.out.println("│ 1. User Information           │");
+        System.out.println("│ 2. Manage [Tool Template]     │");
+        System.out.println("│ 0. Exit                       │");
+        System.out.println("└-------------------------------┘");
+        System.out.print(" Select > ");
         return input.nextInt();
     }
 
