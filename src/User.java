@@ -4,11 +4,12 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.Scanner;
+import java.io.Console;
 
 public class User{
 	private Connection conn = null;
 	private MessageDigest md = null;
-	private Scanner input = new Scanner(System.in);
+	private static Scanner input = new Scanner(System.in);
 	
 	public User() {
 		try {
@@ -45,7 +46,7 @@ public class User{
 			
 		} catch(Exception e) {
 			System.out.println(e);
-			System.out.println("Registration Failed. Please contact system administrator");
+			System.out.println("\nRegistration Failed. Please contact system administrator\n");
 			return false;
 		}
 	}
@@ -69,7 +70,7 @@ public class User{
 				System.out.println("Welcome "+rs.getString("name")+"!\n");
 				return true;
 		  } else{
-		  	System.out.println("Login failed: Please check your ID and Password");
+		  	System.out.println("Login failed: Please check your ID and Password\n");
 		  	return false;
 		  }
 		} catch(Exception e) {
@@ -78,41 +79,37 @@ public class User{
 			return false;
 		}
 	}
-	
-	public Boolean changePassword(String uid, String pwd) {
-		PreparedStatement stmt = null;
-		if(Login(uid, pwd)) {
-			System.out.print("New Password :: ");
-			String newPwd = input.nextLine();
-			System.out.print("Confirm New Password :: ");
-			String confirmPwd = input.nextLine();
-			
-			if(!newPwd.equals(confirmPwd)) {
-				System.out.println("Passwords you have entered do not match");
-				return false;
-			}
-			
-			//apply SHA-256
-			md.update(newPwd.getBytes());
-			newPwd = bytesToHex(md.digest());
-			
-			try {
-			    stmt = conn.prepareStatement(
-		    	        "UPDATE User SET pwd=?"
-		    	        + " WHERE uid=?");
-				
-				stmt.setString(1, newPwd);
-				stmt.setString(2, uid);
-				stmt.executeUpdate();
 
-				System.out.println("Password successfully changed");
-				return true;
-			} catch(Exception e) {
-				System.out.println(e);
-				System.out.println("Error occured");
-				return false;
-			}
-		}else {
+	public Boolean changePassword(String uid) {
+		PreparedStatement stmt = null;
+
+		System.out.print("New Password :: ");
+		String newPwd = getPassword();
+		System.out.print("Confirm New Password :: ");
+		String confirmPwd = getPassword();
+			
+		if(!newPwd.equals(confirmPwd)) {
+			System.out.println("Error: Passwords you have entered do not match\n");
+			return false;
+		}
+			
+		//apply SHA-256
+		md.update(newPwd.getBytes());
+		newPwd = bytesToHex(md.digest());
+		
+		try {
+		    stmt = conn.prepareStatement(
+	    	        "UPDATE User SET pwd=?"
+	    	        + " WHERE uid=?");
+			stmt.setString(1, newPwd);
+			stmt.setString(2, uid);
+			stmt.executeUpdate();
+
+			System.out.println("Password successfully changed\n");
+			return true;
+		} catch(Exception e) {
+			System.out.println(e);
+			System.out.println("Error occured\n");
 			return false;
 		}
 	}
@@ -154,4 +151,20 @@ public class User{
 	    }
 	    return hexString.toString();
 	}
+
+	private static String getPassword() {
+	    Console console = System.console();
+
+	    if (console == null) {
+	        System.out.println("Fail to Mask your Password :( - Couldn't get Console instance");
+//	        System.exit(0);
+			System.out.print("PW : ");
+			String passwordString = input.nextLine();
+			return passwordString;
+		}
+
+		char[] passwordArray = console.readPassword("");
+	  return new String(passwordArray);
+	}
+	
 }

@@ -45,6 +45,7 @@ public class Main{
                 	user.printInfo(uid);
                     break;
                 case 2:
+                	user.changePassword(uid);
                     break;
                 case 3:
                     break;
