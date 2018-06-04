@@ -162,7 +162,7 @@ public class User{
 				rs = stmt.executeQuery();
 				
 				while(rs.next()){
-					System.out.println(" Name: " + rs.getString("name"));
+					Cprint.b(" Name: " + rs.getString("name"));
 					System.out.println(" Id:   " + rs.getString("uid"));
 					if(rs.getInt("sex") == 1) sex = "Female";
 					else sex = "Male";
