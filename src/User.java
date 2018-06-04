@@ -1,3 +1,4 @@
+import java.io.Console;
 import java.security.MessageDigest;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -93,16 +94,16 @@ public class User{
 			rs = stmt.executeQuery();
 
 			if(rs.next()){
-				System.out.println("\n*****************************************************");
+				System.out.println("---------- [Login Success] ----------");
 				System.out.println("Welcome "+rs.getString("name")+"!\n");
 				return rs.getInt("auth");
 		  } else{
-		  	System.out.println("Login failed: Please check your ID and Password\n");
+			Cprint.e(" Login failed: Please check your ID and Password\n");
+		  	//System.out.println(" Login failed: Please check your ID and Password\n");
 		  	return 0;
 		  }
 		} catch(Exception e) {
-			System.out.println(e);
-			System.out.println("Error occured");
+			System.out.println(" Error occurs: " + e);
 			return 0;
 		}
 	}
@@ -132,11 +133,10 @@ public class User{
 			stmt.setString(2, uid);
 			stmt.executeUpdate();
 
-			System.out.println("Password successfully changed\n");
+			System.out.println(" Password successfully changed\n");
 			return true;
 		} catch(Exception e) {
-			System.out.println(e);
-			System.out.println("Error occured\n");
+			System.out.println(" Error occurs: " + e);
 			return false;
 		}
 	}
@@ -181,7 +181,7 @@ public class User{
 			}
 		} catch(Exception e) {
 			System.out.println(e);
-			System.out.println("Failed. Please contact system administrator");
+			System.out.println(" Failed. Please contact system administrator");
 		}
 
 	}
@@ -200,9 +200,9 @@ public class User{
 	    Console console = System.console();
 
 	    if (console == null) {
-	        System.out.println("Fail to Mask your Password :( - Couldn't get Console instance");
+	        System.out.println(" ! Fail to Mask your Password :( - Couldn't get Console instance");
 //	        System.exit(0);
-			System.out.print("PW : ");
+			System.out.print(" Password: ");
 			String passwordString = input.nextLine();
 			return passwordString;
 		}
