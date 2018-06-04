@@ -15,6 +15,7 @@ public class Sysinfo {
     private static final String INSTALLED_PATH_32 = REGQUERY_UTIL +
             "\"HKEY_LOCAL_MACHINE\\SOFTWARE\\WOW6432Node\\Microsoft\\Windows\\CurrentVersion\\"
             + "Uninstall";
+    private static Scanner input = new Scanner(System.in);
 
     public static String getName(String path){
         try {
@@ -94,17 +95,29 @@ public class Sysinfo {
     }
 
     public static void readInfo() {
-        getInstalledList(64);
-        getInstalledList(32);
-
-        // Sorting
-        Ascending ascending = new Ascending();
-        Collections.sort(list_sw, ascending);
+        int scan = 1;
+        if(list_sw.size() > 0){
+            scan = 0;
+            Cprint.w(" Do you want to load installed software again? (y,n) ","");
+            String iss = input.nextLine().toLowerCase();
+            if (iss.equals("y")) scan = 1;
+        }
+        if (scan == 1) {
+            getInstalledList(64);
+            getInstalledList(32);
+            // Sorting
+            Ascending ascending = new Ascending();
+            Collections.sort(list_sw, ascending);
+            Cprint.i(" Loading is complete.");
+        }
+        System.out.print(" Do you want to print the list? (y,n) ");
+        String isp = input.nextLine().toLowerCase();
+        if(isp.equals("y")) printInfo();
     }
 
     public static void printInfo(){
         for(SWinfo installed_sw : list_sw){
-            System.out.printf("%s (%s)\n",installed_sw.name,installed_sw.version);
+            System.out.printf(" %s (%s)\n",installed_sw.name,installed_sw.version);
         }
     }
 

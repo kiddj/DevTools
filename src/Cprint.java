@@ -24,7 +24,7 @@ public class Cprint {
         System.out.println(ansi( ).fg( YELLOW ).a(message).reset());
     }
     public static void w(String message, String end) {
-        System.out.println(ansi( ).fg( YELLOW ).a(message + end).reset());
+        System.out.print(ansi( ).fg( YELLOW ).a(message + end).reset());
     }
 
     //Blue
@@ -32,6 +32,6 @@ public class Cprint {
         System.out.println(ansi( ).fg( CYAN ).a(message).reset());
     }
     public static void b(String message, String end) {
-        System.out.println(ansi( ).fg( CYAN ).a(message + end).reset());
+        System.out.print(ansi( ).fg( CYAN ).a(message + end).reset());
     }
 }
