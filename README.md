@@ -15,5 +15,11 @@ Compile source code and run (packaging must be done if compiled using javac - in
 
 # Issue
 
-Password masking does not work on Eclipse/Intellij (must run manually in CMD)
+* Password masking does not work on Eclipse/Intellij (must run manually in CMD)
+* English is supported by default. Korean(Hangul) may cause problems.
 
+# Open source
+
+We use
+* Jansi (http://fusesource.github.io/jansi)
+* TableList (https://github.com/therealfarfetchd/crogamp/blob/master/src/com/github/mrebhan/crogamp/cli/TableList.java)
