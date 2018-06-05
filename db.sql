@@ -13,6 +13,7 @@ CREATE TABLE User(
 CREATE TABLE Template(
 	name VARCHAR(30) NOT NULL,
 	createdBy VARCHAR(20),
+	details TEXT,
 	PRIMARY KEY (name),
 	FOREIGN KEY (createdBy) REFERENCES User(uid)
 );
