@@ -183,16 +183,19 @@ public class User{
 	}
 	
 	public Boolean createTemplate(){
-		String name = "";
+		String name = "", details = "";
 		PreparedStatement stmt = null;
 		try {
-			System.out.print("Please enter the name of the tool template: ");
+			System.out.print("Name: ");
 			name = input.nextLine();
+			System.out.print("Details: ");
+			details = input.nextLine();
 		    stmt = conn.prepareStatement(
-	    	        "INSERT INTO Template (name,createdBy)"
-	    	        + " VALUES (?,?)");
+	    	        "INSERT INTO Template (name,createdBy,details)"
+	    	        + " VALUES (?,?,?)");
 			stmt.setString(1, name);
 			stmt.setString(2, "admin");
+			stmt.setString(3, details);
 			stmt.executeUpdate();
 
 			Cprint.i(name + " template created");
