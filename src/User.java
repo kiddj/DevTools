@@ -180,6 +180,29 @@ public class User{
 
 	}
 	
+	public Boolean createTemplate(String uid){
+		String name = "";
+		PreparedStatement stmt = null;
+		try {
+
+			System.out.print("Please enter the name of the tool template: ");
+			name = input.nextLine();
+		    stmt = conn.prepareStatement(
+	    	        "INSERT INTO Template (name,createdBy)"
+	    	        + " VALUES (?,?)");
+			stmt.setString(1, name);
+			stmt.setString(2, uid);
+			stmt.executeUpdate();
+
+			Cprint.i(name + " template created");
+			return true;
+		} catch(Exception e) {
+			Cprint.e(" Error occurs: " + e);
+			Cprint.e(" Template creation failed. Please contact system administrator\n");
+			return false;
+		}
+	}
+
 	private static String bytesToHex(byte[] hash) {
 	    StringBuffer hexString = new StringBuffer();
 	    for (int i = 0; i < hash.length; i++) {

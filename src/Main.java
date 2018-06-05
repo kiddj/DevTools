@@ -81,6 +81,7 @@ public class Main{
                     case 6:
                         break;
                     case 7:
+                        user.createTemplate(uid);
                         break;
                     case 8: // Delete Record
                         if(user.Delete(uid)) System.exit(0);

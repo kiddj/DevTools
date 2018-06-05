@@ -18,6 +18,15 @@ CREATE TABLE Dev(
 	details TEXT,
 	reference TEXT,
 	uid VARCHAR(20),
+	template TEXT,
 	PRIMARY KEY (id),
-	FOREIGN KEY (uid) REFERENCES User(uid)
+	FOREIGN KEY (uid) REFERENCES User(uid),
+	FOREIGN KEY (template) REFERENCES Template(name)
+);
+
+CREATE TABLE Template(
+	name TEXT NOT NULL,
+	createdBy VARCHAR(20),
+	PRIMARY KEY (name),
+	FOREIGN KEY (createdBy) REFERENCES User(uid)
 );
