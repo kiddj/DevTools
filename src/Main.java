@@ -76,10 +76,10 @@ public class Main{
                         break;
                     case 3:
                         break;
-                    case 4:
-                        break;
-                    case 5: // Search/Add Installed Tools
+                    case 4: // Search/Add Installed Tools
                         ManageTools.SearchAdd();
+                        break;
+                    case 5:
                         break;
                     case 6:
                         break;
@@ -104,13 +104,13 @@ public class Main{
                         user.printInfo(uid);
                         break;
                     case 2:
-                        user.createTemplate();
-                        break;
-                    case 3:
                         checkProgram();
                         break;
-                    case 4:
+                    case 3:
                         addProgram();
+                        break;
+                    case 4:
+                        user.createTemplate();
                         break;
                     default:
                         Cprint.e(" You've entered a wrong number");
@@ -161,26 +161,12 @@ public class Main{
         user.Register(uid, pw, s, name);
     }
 
-    private static final String[] BLINE = { "─", "─" };
-    private static final String[] CROSSING = { "┼", "┼" };
-    private static final String[] VERTICAL_TSEP = { "│", "│" };
-    private static final String[] VERTICAL_BSEP = { "│", "│" };
-    private static final String TLINE = "─";
-    private static final String CORNER_TL = "┌";
-    private static final String CORNER_TR = "┐";
-    private static final String CORNER_BL = "└";
-    private static final String CORNER_BR = "┘";
-    private static final String CROSSING_L = "├";
-    private static final String CROSSING_R = "┤";
-    private static final String CROSSING_T = "┬";
-    private static final String CROSSING_B = "┴";
-
     private static int displayLoginMenu() {
         displayLogo();
         TableList mnu_login = new TableList(1, "Login to DevTools").withUnicode(true);
-        mnu_login.addRow(String.format("%-30s","1. Login"));
-        mnu_login.addRow(String.format("%-30s","2. Register"));
-        mnu_login.addRow(String.format("%-30s","0. Exit"));
+        mnu_login.addRow(ls("1. Login",30,0));
+        mnu_login.addRow(ls("2. Register",30,0));
+        mnu_login.addRow(ls("0. Exit",30,0));
         mnu_login.print();
         System.out.print(" Select > ");
         return input.nextInt();
@@ -190,12 +176,12 @@ public class Main{
 //        System.out.println(" DevTools " + str_ver);
         displayLogo();
         TableList mnu_main = new TableList(2, "Manage Info","Manage Development Tools").withUnicode(true);
-        mnu_main.addRow(String.format("%-30s","1. User Information"),String.format("%-30s","3. Show My Template"));
-        mnu_main.addRow(String.format("%-30s","2. Change Password"), String.format("%-30s","4. Search/Add Installed Tools"));
-        mnu_main.addRow(String.format("%-30s",""),String.format("%-30s","5. Add Tools Manually"));
-        mnu_main.addRow(String.format("%-30s",""),String.format("%-30s","6. Restore your Tools"));
-        mnu_main.addRow(String.format("%-30s",""),String.format("%-30s",""));
-        mnu_main.addRow(String.format("%-30s","7. Delete Record"),String.format("%-20s","0. Exit"));
+        mnu_main.addRow(ls("1. User Information",30,0),ls("3. Show my Template",30,0));
+        mnu_main.addRow(ls("2. Change Password",30,0), ls("4. Search/Add Installed Tools",30,0));
+        mnu_main.addRow(ls("",30,0),ls("5. Add Tools Manually",30,0));
+        mnu_main.addRow(ls("",30,0),ls("6. Restore your Tools",30,0));
+        mnu_main.addRow(ls("",30,0),ls("",30,0));
+        mnu_main.addRow(ls("7. Delete Records",30,0),ls("0. Exit",30,0));
         mnu_main.print();
 //        System.out.println("┌--------------------------------┬---------------------------------┐");
 //        System.out.println("│            Your Info           │     Manage Development Tools    │");
@@ -214,11 +200,11 @@ public class Main{
     private static int displayAdminMenu() {
         displayLogo();
         TableList mnu_admin = new TableList(1, "Admin").withUnicode(true);
-        mnu_admin.addRow(String.format("%-30s","1. User Information"));
-        mnu_admin.addRow(String.format("%-30s","2. Add Template"));
-        mnu_admin.addRow(String.format("%-30s","3. View Template"));
-        mnu_admin.addRow(String.format("%-30s","4. Add Tool to Template"));
-        mnu_admin.addRow(String.format("%-30s","0. Exit"));
+        mnu_admin.addRow(ls("1. User Information",30,0));
+        mnu_admin.addRow(ls("2. View Template",30,0));
+        mnu_admin.addRow(ls("3. Add Tools to Template",30,0));
+        mnu_admin.addRow(ls("4. Add Template",30,0));
+        mnu_admin.addRow(ls("0. Exit",30,0));
         mnu_admin.print();
         System.out.print(" Select > ");
         return input.nextInt();
@@ -236,7 +222,7 @@ public class Main{
         Console console = System.console();
 
         if (console == null) {
-            Cprint.e("Failed to Mask your Password :( - Couldn't get Console instance");
+            Cprint.e(" Failed to Mask your Password :( - Couldn't get Console instance");
 //	        System.exit(0);
             String passwordString = input.nextLine();
             return passwordString;
@@ -249,58 +235,74 @@ public class Main{
     private static void addProgram() {
         ArrayList<String> templates = user.getAdminTemplates();
         if(templates.size() > 0){
-            System.out.println("\nSelect a template: ");
+            TableList list_tp = new TableList(2, "Name","Description").withUnicode(true);
+
             int index = 1;
             for(String template : templates){
-                System.out.println(index++ + " - " + template);
+                list_tp.addRow(String.valueOf(index) + ". "  + ls(template,15,0),ls("",50,0));
+                index++;
             }
-            
+            list_tp.print();
+            System.out.print(" Select Template > ");
+
             String temp = templates.get(input.nextInt()-1);
             input.nextLine();
 
-            System.out.println("Program Details: ");
-            System.out.print("- Name: ");
+            System.out.print(" Name: ");
             String name = input.nextLine();
-            System.out.print("- Version: ");
+            System.out.print(" Version: ");
             String version = input.nextLine();
-            System.out.print("- Download Url: ");
+            System.out.print(" Download URL: ");
             String insPath = input.nextLine();
-            System.out.print("- Reference: ");
+            System.out.print(" Reference: ");
             String reference = input.nextLine();
-            System.out.print("- Details: ");
+            System.out.print(" Details: ");
             String details = input.nextLine();
 
             user.addDev(name,version,insPath,reference,details,uid,temp);
-
         } else{
-            Cprint.e("There is no template available :(");
+            Cprint.e(" There is no template available :(");
         }
     }
 
     private static void checkProgram(){
         ArrayList<String> templates = user.getAdminTemplates();
         if(templates.size() > 0){
-            System.out.println("\nSelect a template: ");
+            TableList list_tp = new TableList(2, "Name","Description").withUnicode(true);
+
             int index = 1;
             for(String template : templates){
-                System.out.println(index++ + " - " + template);
+                list_tp.addRow(String.valueOf(index) + ". "  + ls(template,15,0),ls("",50,0));
+                index++;
             }
+            list_tp.print();
+            System.out.print(" Select Template > ");
             
             String temp = templates.get(input.nextInt()-1);
             input.nextLine();
 
             ResultSet rs = user.getPrograms(temp);
-            System.out.println("\n"+temp+" Template");
-            System.out.println("---------------------------------");
+
+            TableList detail_tp = new TableList(1,temp).withUnicode(true);
+            int index_sw = 0;
             try{
                 while(rs.next()){
-                    System.out.println("- " + rs.getString("name") + " " + rs.getString("version")  + " " + rs.getString("insPath"));
+                    index_sw++;
+                    String dsw = String.valueOf(index_sw) + ". " + rs.getString("name") + " " + rs.getString("version")  + "(" + rs.getString("insPath") + ")";
+                    detail_tp.addRow(ls(dsw,70,0));
                 }
             } catch (Exception e){
-                System.out.println(e);
+                Cprint.e(" Error occurs" + e);
             }
+            if (index_sw == 0) detail_tp.addRow(ls("Tool does not exist",70,0));
+            detail_tp.print();
         } else{
-            Cprint.e("There is no template available :(");
+            Cprint.e(" There is no template available :(");
         }
+    }
+
+    private static String ls(String str, int width, int align){
+        if (align == 0) return String.format("%-" + width + "." + width + "s",str);
+        else return String.format("%" + width + "." + width + "s",str);
     }
 }

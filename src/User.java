@@ -162,18 +162,16 @@ public class User{
 					stmt = conn.prepareStatement("SELECT uid,name,sex,auth from User");
 				}
 				rs = stmt.executeQuery();
-				
+
+				TableList info_user = new TableList(4, "Name","ID","Sex","Type").withUnicode(true);
 				while(rs.next()){
-					Cprint.b(" Name: " + rs.getString("name"));
-					System.out.println(" Id:   " + rs.getString("uid"));
-					if(rs.getInt("sex") == 1) sex = "Female";
-					else sex = "Male";
-					System.out.println(" Sex:  " + sex);
-					if(rs.getInt("auth") == 1) level = "General";
-					else level = "Admin";
-					System.out.println(" Type: " + level);
-					System.out.println("");
+					String u_name = rs.getString("name");
+					String u_id = rs.getString("uid");
+					String u_sex = rs.getInt("sex")==1?"F":"M";
+					String u_type = rs.getInt("auth")==1?"General":"Admin";
+					info_user.addRow(ls(u_name,20,0),ls(u_id,20,0),ls(u_sex,5,0),ls(u_type,10,0));
 				}
+				info_user.print();
 			}
 		} catch(Exception e) {
 			System.out.println(e);
@@ -272,7 +270,7 @@ public class User{
 			stmt.setString(7, temp);
 			stmt.executeUpdate();
 
-			Cprint.i(name + " added to " + temp + " Template");
+			Cprint.i(" [" + name + "] added to " + temp + " Template successfully");
 			return true;
 		} catch(Exception e) {
 			Cprint.e(" Error occurs: " + e);
@@ -321,6 +319,11 @@ public class User{
 
 		char[] passwordArray = console.readPassword("");
 	  return new String(passwordArray);
+	}
+
+	private static String ls(String str, int width, int align){
+		if (align == 0) return String.format("%-" + width + "." + width + "s",str);
+		else return String.format("%" + width + "." + width + "s",str);
 	}
 	
 }
