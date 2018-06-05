@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
 import java.util.Scanner;
 import java.io.Console;
 
@@ -68,6 +69,7 @@ public class User{
 			}
 			stmt.setString(4,name);
 			stmt.executeUpdate();
+
 			Cprint.i(" You've successfully registered to DevTools\n");
 			return true;
 		} catch(Exception e) {
@@ -180,18 +182,17 @@ public class User{
 
 	}
 	
-	public Boolean createTemplate(String uid){
+	public Boolean createTemplate(){
 		String name = "";
 		PreparedStatement stmt = null;
 		try {
-
 			System.out.print("Please enter the name of the tool template: ");
 			name = input.nextLine();
 		    stmt = conn.prepareStatement(
 	    	        "INSERT INTO Template (name,createdBy)"
 	    	        + " VALUES (?,?)");
 			stmt.setString(1, name);
-			stmt.setString(2, uid);
+			stmt.setString(2, "admin");
 			stmt.executeUpdate();
 
 			Cprint.i(name + " template created");
@@ -199,6 +200,80 @@ public class User{
 		} catch(Exception e) {
 			Cprint.e(" Error occurs: " + e);
 			Cprint.e(" Template creation failed. Please contact system administrator\n");
+			return false;
+		}
+	}
+
+	//Admin + 본인 템플릿
+	public ArrayList<String> getAdminTemplates(){
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		ArrayList<String> output = new ArrayList<String>();
+		try {
+		    stmt = conn.prepareStatement(
+	    	        "SELECT name from Template"
+	    	        + " WHERE createdBy = ? ");
+			stmt.setString(1, "admin");
+			rs = stmt.executeQuery();
+
+			while(rs.next()){
+				output.add(rs.getString("name"));
+			}
+			
+			return output;
+		} catch(Exception e) {
+			Cprint.e(" Error occurs: " + e);
+			Cprint.e(" Failed. Please contact system administrator\n");
+			return null;
+		}
+	}
+
+	//Admin + 본인 템플릿
+	public ArrayList<String> getTemplates(String uid){
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+
+		ArrayList<String> output = new ArrayList<String>();
+		try {
+		    stmt = conn.prepareStatement(
+	    	        "SELECT name from Template"
+	    	        + " WHERE createdBy = ? or createdBy = ? ");
+			stmt.setString(1, "admin");
+			stmt.setString(2, uid);
+			rs = stmt.executeQuery();
+
+			while(rs.next()){
+				output.add(rs.getString("name"));
+			}
+			
+			return output;
+		} catch(Exception e) {
+			Cprint.e(" Error occurs: " + e);
+			Cprint.e(" Failed. Please contact system administrator\n");
+			return null;
+		}
+	}
+
+	public Boolean addDev(String name, String version, String insPath, String reference, String details, String uid, String temp){
+		PreparedStatement stmt = null;
+		try {
+		    stmt = conn.prepareStatement(
+	    	        "INSERT INTO Dev (name, version, insPath, reference, details, uid, template)"
+	    	        + " VALUES (?,?,?,?,?,?,?)");
+			stmt.setString(1, name);
+			stmt.setString(2, version);
+			stmt.setString(3, insPath);
+			stmt.setString(4, reference);
+			stmt.setString(5, details);
+			stmt.setString(6, uid);
+			stmt.setString(7, temp);
+			stmt.executeUpdate();
+
+			Cprint.i(name + " added to " + temp + " Template");
+			return true;
+		} catch(Exception e) {
+			Cprint.e(" Error occurs: " + e);
+			Cprint.e(" Program adding failed. Please contact system administrator\n");
 			return false;
 		}
 	}

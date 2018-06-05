@@ -10,6 +10,14 @@ CREATE TABLE User(
 	PRIMARY KEY (uid)
 );
 
+CREATE TABLE Template(
+	name VARCHAR(30) NOT NULL,
+	createdBy VARCHAR(20),
+	PRIMARY KEY (name),
+	FOREIGN KEY (createdBy) REFERENCES User(uid)
+);
+
+
 CREATE TABLE Dev(
 	id INTEGER AUTO_INCREMENT NOT NULL,
 	name TEXT,
@@ -18,15 +26,8 @@ CREATE TABLE Dev(
 	details TEXT,
 	reference TEXT,
 	uid VARCHAR(20),
-	template VARCHAR(30) NOT NULL,
+	template VARCHAR(30),
 	PRIMARY KEY (id),
 	FOREIGN KEY (uid) REFERENCES User(uid),
 	FOREIGN KEY (template) REFERENCES Template(name)
-);
-
-CREATE TABLE Template(
-	name VARCHAR(30) NOT NULL,
-	createdBy VARCHAR(20),
-	PRIMARY KEY (name),
-	FOREIGN KEY (createdBy) REFERENCES User(uid)
 );

@@ -4,6 +4,7 @@ import java.util.Scanner;
 import org.fusesource.jansi.AnsiConsole;
 import static org.fusesource.jansi.Ansi.Color.*;
 import static org.fusesource.jansi.Ansi.ansi;
+import java.util.ArrayList;
 
 //TODO
 //Devtools Sorting
@@ -80,10 +81,7 @@ public class Main{
                         break;
                     case 6:
                         break;
-                    case 7:
-                        user.createTemplate(uid);
-                        break;
-                    case 8: // Delete Record
+                    case 7: // Delete Record
                         if(user.Delete(uid)) System.exit(0);
                         else break;
                     default:
@@ -104,6 +102,10 @@ public class Main{
                         user.printInfo(uid);
                         break;
                     case 2:
+                        user.createTemplate();
+                        break;
+                    case 3:
+                        addProgram();
                         break;
                     default:
                         Cprint.e(" You've entered a wrong number");
@@ -124,7 +126,7 @@ public class Main{
         Cprint.w(" |____/|_____|____/  |_| |_____|_____|_____|_____|  github.com/kiddj/DevTools\n");
     }
 
-    private static void Login(){
+    private static void Login() {
         // Login
         do {
             promptLogin();
@@ -133,7 +135,7 @@ public class Main{
         while(auth == 0);
     }
 
-    private static void Register(){
+    private static void Register() {
         int pw_check = 0;
         String name, uid, pw = null, cpw, s;
 //        System.out.println("\n ---------- Register ----------");
@@ -175,9 +177,8 @@ public class Main{
         System.out.println("│ 2. Change Password             │ 4. Add Tools Manually           │");
         System.out.println("│                                │ 5. Search/Add Installed Tools   │");
         System.out.println("│                                │ 6. Restore your Tools           │");
-        System.out.println("│                                │ 7. Add [Tool Template]          │");
         System.out.println("├--------------------------------┼---------------------------------┤");
-        System.out.println("│       ## Warning Zone ##       │ 8. Delete Record        0. Exit │");
+        System.out.println("│       ## Warning Zone ##       │ 7. Delete Record        0. Exit │");
         System.out.println("└--------------------------------┴---------------------------------┘");
         System.out.print(" Select > ");
         return input.nextInt();
@@ -187,18 +188,19 @@ public class Main{
         displayLogo();
         System.out.println("┌-------------------------------┐");
         System.out.println("│ 1. User Information           │");
-        System.out.println("│ 2. Manage [Tool Template]     │");
+        System.out.println("│ 2. Add [Tool Template]        │");
+        System.out.println("│ 3. Add Program to Template    │");
         System.out.println("│ 0. Exit                       │");
         System.out.println("└-------------------------------┘");
         System.out.print(" Select > ");
         return input.nextInt();
     }
 
-        private static void promptLogin() {
+    private static void promptLogin() {
 //            System.out.println("\n ---------- Login ----------");
-            System.out.print(" Enter ID: ");
-            uid = input.nextLine();
-            System.out.print(" Enter Password: ");
+        System.out.print(" Enter ID: ");
+        uid = input.nextLine();
+        System.out.print(" Enter Password: ");
         pwd = getPassword();
     }
 
@@ -206,7 +208,7 @@ public class Main{
         Console console = System.console();
 
         if (console == null) {
-            Cprint.e(" Failed to Mask your Password :( - Couldn't get Console instance");
+            Cprint.e("Failed to Mask your Password :( - Couldn't get Console instance");
 //	        System.exit(0);
             String passwordString = input.nextLine();
             return passwordString;
@@ -216,4 +218,35 @@ public class Main{
         return new String(passwordArray);
     }
 
+    private static void addProgram() {
+        ArrayList<String> templates = user.getAdminTemplates();
+        if(templates.size() > 0){
+            System.out.println("\nSelect a template: ");
+            int index = 1;
+            for(String template : templates){
+                System.out.println(index++ + " - " + template);
+            }
+            
+            String temp = templates.get(input.nextInt());
+            input.nextLine();
+
+            System.out.println("Program Details: ");
+            System.out.print("- Name: ");
+            String name = input.nextLine();
+            System.out.print("- Version: ");
+            String version = input.nextLine();
+            System.out.print("- Download Url: ");
+            String insPath = input.nextLine();
+            System.out.print("- Reference: ");
+            String reference = input.nextLine();
+            System.out.print("- Details: ");
+            String details = input.nextLine();
+
+            user.addDev(name,version,insPath,reference,details,uid,temp);
+
+        } else{
+            Cprint.e("There is no template available :(");
+        }
+
+    }
 }
