@@ -98,7 +98,7 @@ public class Sysinfo {
         int scan = 1;
         if(list_sw.size() > 0){
             scan = 0;
-            Cprint.w(" Do you want to load installed software again? (y,n) ","");
+            Cprint.b(" Do you want to load installed software again? (y,n) ","");
             String iss = input.nextLine().toLowerCase();
             if (iss.equals("y")) scan = 1;
         }
