@@ -278,6 +278,24 @@ public class User{
 		}
 	}
 
+	public ResultSet getPrograms(String template){
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+
+		try {
+		    stmt = conn.prepareStatement(
+	    	        "SELECT * FROM Dev"
+	    	        + " WHERE template = ?");
+			stmt.setString(1, template);
+			rs = stmt.executeQuery();
+			return rs;
+		} catch(Exception e) {
+			Cprint.e(" Error occurs: " + e);
+			Cprint.e(" Failed. Please contact system administrator\n");
+			return null;
+		}
+	}
+
 	private static String bytesToHex(byte[] hash) {
 	    StringBuffer hexString = new StringBuffer();
 	    for (int i = 0; i < hash.length; i++) {

@@ -5,6 +5,7 @@ import org.fusesource.jansi.AnsiConsole;
 import static org.fusesource.jansi.Ansi.Color.*;
 import static org.fusesource.jansi.Ansi.ansi;
 import java.util.ArrayList;
+import java.sql.ResultSet;
 
 //TODO
 //Devtools Sorting
@@ -105,6 +106,9 @@ public class Main{
                         user.createTemplate();
                         break;
                     case 3:
+                        checkProgram();
+                        break;
+                    case 4:
                         addProgram();
                         break;
                     default:
@@ -189,7 +193,8 @@ public class Main{
         System.out.println("┌-------------------------------┐");
         System.out.println("│ 1. User Information           │");
         System.out.println("│ 2. Add [Tool Template]        │");
-        System.out.println("│ 3. Add Program to Template    │");
+        System.out.println("│ 3. Check Programs in Template │");
+        System.out.println("│ 4. Add Program to Template    │");
         System.out.println("│ 0. Exit                       │");
         System.out.println("└-------------------------------┘");
         System.out.print(" Select > ");
@@ -227,7 +232,7 @@ public class Main{
                 System.out.println(index++ + " - " + template);
             }
             
-            String temp = templates.get(input.nextInt());
+            String temp = templates.get(input.nextInt()-1);
             input.nextLine();
 
             System.out.println("Program Details: ");
@@ -247,6 +252,32 @@ public class Main{
         } else{
             Cprint.e("There is no template available :(");
         }
+    }
 
+    private static void checkProgram(){
+        ArrayList<String> templates = user.getAdminTemplates();
+        if(templates.size() > 0){
+            System.out.println("\nSelect a template: ");
+            int index = 1;
+            for(String template : templates){
+                System.out.println(index++ + " - " + template);
+            }
+            
+            String temp = templates.get(input.nextInt()-1);
+            input.nextLine();
+
+            ResultSet rs = user.getPrograms(temp);
+            System.out.println("\n"+temp+" Template");
+            System.out.println("---------------------------------");
+            try{
+                while(rs.next()){
+                    System.out.println("- " + rs.getString("name") + " " + rs.getString("version")  + " " + rs.getString("insPath"));
+                }
+            } catch (Exception e){
+                System.out.println(e);
+            }
+        } else{
+            Cprint.e("There is no template available :(");
+        }
     }
 }
