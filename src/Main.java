@@ -1,6 +1,7 @@
 import java.io.Console;
 import java.io.UnsupportedEncodingException;
 import java.util.Scanner;
+
 import org.fusesource.jansi.AnsiConsole;
 import static org.fusesource.jansi.Ansi.Color.*;
 import static org.fusesource.jansi.Ansi.ansi;
@@ -160,13 +161,27 @@ public class Main{
         user.Register(uid, pw, s, name);
     }
 
+    private static final String[] BLINE = { "─", "─" };
+    private static final String[] CROSSING = { "┼", "┼" };
+    private static final String[] VERTICAL_TSEP = { "│", "│" };
+    private static final String[] VERTICAL_BSEP = { "│", "│" };
+    private static final String TLINE = "─";
+    private static final String CORNER_TL = "┌";
+    private static final String CORNER_TR = "┐";
+    private static final String CORNER_BL = "└";
+    private static final String CORNER_BR = "┘";
+    private static final String CROSSING_L = "├";
+    private static final String CROSSING_R = "┤";
+    private static final String CROSSING_T = "┬";
+    private static final String CROSSING_B = "┴";
+
     private static int displayLoginMenu() {
         displayLogo();
-        System.out.println("┌-------------------------------┐");
-        System.out.println("│ 1. Login                      │");
-        System.out.println("│ 2. Register                   │");
-        System.out.println("│ 0. Exit                       │");
-        System.out.println("└-------------------------------┘");
+        TableList mnu_login = new TableList(1, "Login to DevTools").withUnicode(true);
+        mnu_login.addRow(String.format("%-30s","1. Login"));
+        mnu_login.addRow(String.format("%-30s","2. Register"));
+        mnu_login.addRow(String.format("%-30s","0. Exit"));
+        mnu_login.print();
         System.out.print(" Select > ");
         return input.nextInt();
     }
@@ -174,29 +189,37 @@ public class Main{
     private static int displayMenu() {
 //        System.out.println(" DevTools " + str_ver);
         displayLogo();
-        System.out.println("┌--------------------------------┬---------------------------------┐");
-        System.out.println("│            Your Info           │     Manage Development Tools    │");
-        System.out.println("├--------------------------------┼---------------------------------┤");
-        System.out.println("│ 1. Display User Information    │ 3. Show Saved Tools             │");
-        System.out.println("│ 2. Change Password             │ 4. Add Tools Manually           │");
-        System.out.println("│                                │ 5. Search/Add Installed Tools   │");
-        System.out.println("│                                │ 6. Restore your Tools           │");
-        System.out.println("├--------------------------------┼---------------------------------┤");
-        System.out.println("│       ## Warning Zone ##       │ 7. Delete Record        0. Exit │");
-        System.out.println("└--------------------------------┴---------------------------------┘");
+        TableList mnu_main = new TableList(2, "Manage Info","Manage Development Tools").withUnicode(true);
+        mnu_main.addRow(String.format("%-30s","1. User Information"),String.format("%-30s","3. Show My Template"));
+        mnu_main.addRow(String.format("%-30s","2. Change Password"), String.format("%-30s","4. Search/Add Installed Tools"));
+        mnu_main.addRow(String.format("%-30s",""),String.format("%-30s","5. Add Tools Manually"));
+        mnu_main.addRow(String.format("%-30s",""),String.format("%-30s","6. Restore your Tools"));
+        mnu_main.addRow(String.format("%-30s",""),String.format("%-30s",""));
+        mnu_main.addRow(String.format("%-30s","7. Delete Record"),String.format("%-20s","0. Exit"));
+        mnu_main.print();
+//        System.out.println("┌--------------------------------┬---------------------------------┐");
+//        System.out.println("│            Your Info           │     Manage Development Tools    │");
+//        System.out.println("├--------------------------------┼---------------------------------┤");
+//        System.out.println("│ 1. Display User Information    │ 3. Show Saved Tools             │");
+//        System.out.println("│ 2. Change Password             │ 4. Add Tools Manually           │");
+//        System.out.println("│                                │ 5. Search/Add Installed Tools   │");
+//        System.out.println("│                                │ 6. Restore your Tools           │");
+//        System.out.println("├--------------------------------┼---------------------------------┤");
+//        System.out.println("│       ## Warning Zone ##       │ 7. Delete Record        0. Exit │");
+//        System.out.println("└--------------------------------┴---------------------------------┘");
         System.out.print(" Select > ");
         return input.nextInt();
     }
 
     private static int displayAdminMenu() {
         displayLogo();
-        System.out.println("┌-------------------------------┐");
-        System.out.println("│ 1. User Information           │");
-        System.out.println("│ 2. Add [Tool Template]        │");
-        System.out.println("│ 3. Check Programs in Template │");
-        System.out.println("│ 4. Add Program to Template    │");
-        System.out.println("│ 0. Exit                       │");
-        System.out.println("└-------------------------------┘");
+        TableList mnu_admin = new TableList(1, "Admin").withUnicode(true);
+        mnu_admin.addRow(String.format("%-30s","1. User Information"));
+        mnu_admin.addRow(String.format("%-30s","2. Add Template"));
+        mnu_admin.addRow(String.format("%-30s","3. View Template"));
+        mnu_admin.addRow(String.format("%-30s","4. Add Tool to Template"));
+        mnu_admin.addRow(String.format("%-30s","0. Exit"));
+        mnu_admin.print();
         System.out.print(" Select > ");
         return input.nextInt();
     }

@@ -63,7 +63,7 @@ public class Sysinfo {
                 if(tmp_info.name == null) continue;
                 tmp_info.name = new String(tmp_info.name.getBytes("iso-8859-1"),"EUC-KR");
                 tmp_info.version = getName(install_path + "\\" + sw + "\" /v DisplayVersion");
-                if(tmp_info.version == null) tmp_info.version = "Unknown version";
+                if(tmp_info.version == null) tmp_info.version = "Unknown";
                 list_sw.add(tmp_info);
             }
         } catch (Exception e) {
@@ -116,9 +116,12 @@ public class Sysinfo {
     }
 
     public static void printInfo(){
+        TableList info_sw = new TableList(2, "Name", "Version").sortBy(0).withUnicode(true);
         for(SWinfo installed_sw : list_sw){
-            System.out.printf(" %s (%s)\n",installed_sw.name,installed_sw.version);
+            info_sw.addRow(String.format("%-50.50s", installed_sw.name),String.format("%10.10s", installed_sw.version));
+            //System.out.printf(" %s (%s)\n",installed_sw.name,installed_sw.version);
         }
+        info_sw.print();
     }
 
     // Sorting Override
