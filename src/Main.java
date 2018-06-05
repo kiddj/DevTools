@@ -176,7 +176,7 @@ public class Main{
 //        System.out.println(" DevTools " + str_ver);
         displayLogo();
         TableList mnu_main = new TableList(2, "Manage Info","Manage Development Tools").withUnicode(true);
-        mnu_main.addRow(ls("1. User Information",30,0),ls("3. Show my Template",30,0));
+        mnu_main.addRow(ls("1. User Information",30,0),ls("3. Show my Tools",30,0));
         mnu_main.addRow(ls("2. Change Password",30,0), ls("4. Search/Add Installed Tools",30,0));
         mnu_main.addRow(ls("",30,0),ls("5. Add Tools Manually",30,0));
         mnu_main.addRow(ls("",30,0),ls("6. Restore your Tools",30,0));
