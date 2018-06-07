@@ -60,12 +60,15 @@ public class Admin {
             ResultSet rs = User.getPrograms(temp);
             
             index = 1;
+            list_tp = new TableList(2, "Name","Description").withUnicode(true);
             while(rs.next()){
-                 //TableList 적용 안됨
-                 System.out.println(index+". "+rs.getString("name") + " " + rs.getString("version"));
+                 list_tp.addRow(String.valueOf(index) + ". " + ls(rs.getString("name"),15,0),ls(rs.getString("version"),50,0));
                  programs.add(rs.getString("name"));
                  index++;
             }
+            list_tp.print();
+            System.out.print(" Select Program > ");
+
             String program = programs.get(input.nextInt()-1);
             input.nextLine();
             if(User.deleteProgram(program)) Cprint.w(program + " deleted from " + temp + " template.");
@@ -78,41 +81,18 @@ public class Admin {
 
     public static void addProgram() {
         try{
-        ResultSet templates = User.getAdminTemplates();
-        ArrayList<String> temps = new ArrayList<String>();
-        ArrayList<String> programs = new ArrayList<String>();
-        if(templates != null){
-            TableList list_tp = new TableList(2, "Name","Description").withUnicode(true);
+                System.out.print(" Name: ");
+                String name = input.nextLine();
+                System.out.print(" Version: ");
+                String version = input.nextLine();
+                System.out.print(" Download URL: ");
+                String insPath = input.nextLine();
+                System.out.print(" Reference: ");
+                String reference = input.nextLine();
+                System.out.print(" Details: ");
+                String details = input.nextLine();
 
-            int index = 1;
-            while(templates.next()){
-                String details = templates.getString("details");
-                if(details == null) details = "";
-                list_tp.addRow(String.valueOf(index) + ". " + ls(templates.getString("name"),15,0),ls(details,50,0));
-                index++;
-                temps.add(templates.getString("name"));
-            }
-            list_tp.print();
-            System.out.print(" Select Template > ");
-
-            String temp = temps.get(input.nextInt()-1);
-            input.nextLine();
-
-            ResultSet rs = User.getPrograms(temp);
-            
-            index = 1;
-            while(rs.next()){
-                 //TableList 적용 안됨
-                 System.out.println(index+". "+rs.getString("name") + " " + rs.getString("version"));
-                 programs.add(rs.getString("name"));
-                 index++;
-            }
-            String program = programs.get(input.nextInt()-1);
-            input.nextLine();
-            if(User.deleteProgram(program)) Cprint.w(program + " deleted from " + temp + " template.");
-        } else{
-            Cprint.e(" There is no template available :(");
-        }
+                User.addDev(name,version,insPath,reference,details, null);
         } catch(Exception e){
         }
     }
@@ -141,9 +121,9 @@ public class Admin {
             ResultSet rs = User.getPrograms(null);
             
             index = 1;
+            list_tp = new TableList(2, "Name","Description").withUnicode(true);
             while(rs.next()){
-                 //TableList 적용 안됨
-                 System.out.println(index+". "+rs.getString("name") + " " + rs.getString("version"));
+                 list_tp.addRow(String.valueOf(index) + ". " + ls(rs.getString("name"),15,0),ls(rs.getString("version"),50,0));
                  programs.add(rs.getString("name"));
                  index++;
             }

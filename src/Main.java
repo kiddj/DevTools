@@ -86,11 +86,16 @@ public class Main{
                         break;
                     case 5:
                         Cprint.b("\n # Add Tools Manually");
+                        addProgram();
                         break;
                     case 6:
                         Cprint.b("\n # Restore your Tools");
                         break;
-                    case 7: // Delete Record
+                    case 7:
+                        Cprint.b("\n # Delete Tools");
+                        deleteProgram();
+                        break;
+                    case 8: // Delete Record
                         Cprint.e("\n # I sure hope you know what you are doing.");
                         if(User.Delete()) System.exit(0);
                         else break;
@@ -185,6 +190,49 @@ public class Main{
         User.Register(uid, pw, s, name);
     }
 
+    private static void addProgram(){
+         try{
+                System.out.print(" Name: ");
+                String name = input.nextLine();
+                System.out.print(" Version: ");
+                String version = input.nextLine();
+                System.out.print(" Download URL: ");
+                String insPath = input.nextLine();
+                System.out.print(" Reference: ");
+                String reference = input.nextLine();
+                System.out.print(" Details: ");
+                String details = input.nextLine();
+
+                User.addDev(name,version,insPath,reference,details, null);
+        } catch(Exception e){
+        }
+    }
+
+    private static void deleteProgram(){
+         try{
+            ResultSet rs = User.getPrograms_withid();
+            ArrayList<String> programs = new ArrayList<String>();
+            TableList list_tp = new TableList(2, "Name","Description").withUnicode(true);
+            int index = 1;
+
+            while(rs.next()){
+                String details = rs.getString("details");
+                if(details == null) details = "";
+                list_tp.addRow(String.valueOf(index) + ". " + ls(rs.getString("name"),15,0),ls(details,50,0));
+                index++;
+                programs.add(rs.getString("name"));
+            }
+            list_tp.print();
+            System.out.print(" Select Program > "); 
+            String program = programs.get(input.nextInt()-1);
+            input.nextLine();
+
+            if(User.deleteProgram(program)) Cprint.w(program + " deleted from your saved tools.");
+
+        } catch(Exception e){
+        }
+    }
+
     private static int displayLoginMenu() {
         displayLogo();
         TableList mnu_login = new TableList(1, "Login to DevTools").withUnicode(true);
@@ -204,8 +252,9 @@ public class Main{
         mnu_main.addRow(ls("2. Change Password",30,0), ls("4. Search/Add Local Tools",30,0));
         mnu_main.addRow(ls("",30,0),ls("5. Add Tools Manually",30,0));
         mnu_main.addRow(ls("",30,0),ls("6. Restore your Tools",30,0));
+        mnu_main.addRow(ls("",30,0),ls("7. Delete Tools",30,0));
         mnu_main.addRow(ls("",30,0),ls("",30,0));
-        mnu_main.addRow(ls("7. Delete Records",30,0),ls("0. Exit",30,0));
+        mnu_main.addRow(ls("8. Delete Records",30,0),ls("0. Exit",30,0));
         mnu_main.print();
 //        System.out.println("┌--------------------------------┬---------------------------------┐");
 //        System.out.println("│            Your Info           │     Manage Development Tools    │");
