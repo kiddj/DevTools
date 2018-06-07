@@ -117,12 +117,24 @@ public class Main{
                         Admin.checkProgram();
                         break;
                     case 3:
-                        Cprint.b("\n # Add Tools to Template - Select Template");
-                        Admin.addProgram();
+                        Cprint.b("\n # Add Tool - Enter Information");
+                        
                         break;
                     case 4:
+                        Cprint.b("\n # Add Tool to Template - Select Template");
+                        Admin.addProgram();
+                        break;
+                    case 5:
                         Cprint.b("\n # Add Template - Enter Information");
                         User.createTemplate();
+                        break;
+                    case 6:
+                        Cprint.b("\n # Delete Tool - Select Template");
+                        Admin.deleteProgram();
+                        break;
+                    case 7:
+                        Cprint.b("\n # Delete Template - Select Template");
+                        Admin.deleteTemplate();
                         break;
                     default:
                         Cprint.e(" You've entered a wrong number");
@@ -214,8 +226,11 @@ public class Main{
         TableList mnu_admin = new TableList(1, "Admin").withUnicode(true);
         mnu_admin.addRow(ls("1. User Information",30,0));
         mnu_admin.addRow(ls("2. View Template",30,0));
-        mnu_admin.addRow(ls("3. Add Tools to Template",30,0));
-        mnu_admin.addRow(ls("4. Add Template",30,0));
+        mnu_admin.addRow(ls("3. Add Tool",30,0));
+        mnu_admin.addRow(ls("4. Add Tool to Template",30,0));
+        mnu_admin.addRow(ls("5. Add Template",30,0));
+        mnu_admin.addRow(ls("6. Delete Tool",30,0));
+        mnu_admin.addRow(ls("7. Delete Template",30,0));
         mnu_admin.addRow(ls("0. Exit",30,0));
         mnu_admin.print();
         System.out.print(" Select > ");

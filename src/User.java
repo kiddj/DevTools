@@ -324,6 +324,41 @@ public class User{
 		}
 	}
 
+	public static Boolean deleteTemplate(String template){
+		PreparedStatement stmt = null;
+
+		try {
+			stmt = conn.prepareStatement(
+					"DELETE FROM Template"
+							+ " WHERE name = ?");
+			stmt.setString(1, template);
+			stmt.executeUpdate();
+			return true;
+		} catch(Exception e) {
+			Cprint.e(" Error occurs: " + e);
+			Cprint.e(" Failed. Please contact system administrator\n");
+			return false;
+		}
+	}
+
+	public static Boolean deleteProgram(String name){
+		PreparedStatement stmt = null;
+
+		try {
+			stmt = conn.prepareStatement(
+					"DELETE FROM Dev"
+							+ " WHERE name = ? and uid = ?");
+			stmt.setString(1, name);
+			stmt.setString(2, uid);
+			stmt.executeUpdate();
+			return true;
+		} catch(Exception e) {
+			Cprint.e(" Error occurs: " + e);
+			Cprint.e(" Failed. Please contact system administrator\n");
+			return false;
+		}
+	}
+
 	private static String bytesToHex(byte[] hash) {
 	    StringBuffer hexString = new StringBuffer();
 	    for (int i = 0; i < hash.length; i++) {
