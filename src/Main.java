@@ -90,6 +90,7 @@ public class Main{
                         break;
                     case 6:
                         Cprint.b("\n # Restore your Tools");
+                        ManageTools.Restore();
                         break;
                     case 7:
                         Cprint.b("\n # Delete Tools");

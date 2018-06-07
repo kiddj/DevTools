@@ -2,7 +2,9 @@ import java.io.*;
 import java.util.*;
 
 public class Sysinfo {
-    public static List<SWinfo> list_sw = new ArrayList<SWinfo>();
+
+    public static List<SWinfo> local_sw = new ArrayList<SWinfo>();
+
     private static final String REGQUERY_UTIL = "reg query ";
     private static final String REGSTR_TOKEN = "REG_SZ";
     //private static final String REGDWORD_TOKEN = "REG_DWORD";
@@ -63,7 +65,7 @@ public class Sysinfo {
                 sw_name = new String(sw_name.getBytes("iso-8859-1"),"EUC-KR");
                 String sw_version = getName(install_path + "\\" + sw + "\" /v DisplayVersion");
                 if(sw_version == null) sw_version = "Unknown";
-                list_sw.add(new SWinfo(sw_name,sw_version));
+                local_sw.add(new SWinfo(sw_name,sw_version));
             }
         } catch (Exception e) {
             System.out.println(e);
@@ -95,7 +97,7 @@ public class Sysinfo {
 
     public static void readInfo() {
         int scan = 1;
-        if(list_sw.size() > 0){
+        if(local_sw.size() > 0){
             scan = 0;
             Cprint.w(" Do you want to load installed software again? (y,n) ","");
             String iss = input.nextLine().toLowerCase();
@@ -106,7 +108,7 @@ public class Sysinfo {
             getInstalledList(32);
             // Sorting
             Ascending ascending = new Ascending();
-            Collections.sort(list_sw, ascending);
+            Collections.sort(local_sw, ascending);
             Cprint.i(" Loading is complete.");
         }
         System.out.print(" Do you want to print the list? (y,n) ");
@@ -116,7 +118,7 @@ public class Sysinfo {
 
     public static void printInfo(){
         TableList info_sw = new TableList(2, "Name", "Version").sortBy(0).withUnicode(true);
-        for(SWinfo installed_sw : list_sw){
+        for(SWinfo installed_sw : local_sw){
             info_sw.addRow(String.format("%-50.50s", installed_sw.name),String.format("%10.10s", installed_sw.version));
             //System.out.printf(" %s (%s)\n",installed_sw.name,installed_sw.version);
         }
