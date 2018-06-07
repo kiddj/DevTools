@@ -284,15 +284,27 @@ public class User{
 
 	public static Boolean addProgramToTemplate(String program, String template){
 		PreparedStatement stmt = null;
+		ResultSet rs = null;
 		try {
-		    stmt = conn.prepareStatement(
-	    	        "UPDATE Dev SET template = ?"
-	    	        + " WHERE name = ?");
-			stmt.setString(1, template);
-			stmt.setString(2, program);
-			stmt.executeUpdate();
+			stmt = conn.prepareStatement("SELECT * from Dev WHERE name = ?");
+			stmt.setString(1, program);
+			rs = stmt.executeQuery();
 
+		    stmt = conn.prepareStatement(
+	    	        "INSERT INTO Dev (name, version, insPath, reference, details, uid, template)"
+	    	        + " VALUES (?,?,?,?,?,?,?)");
+		    if(rs.next()){
+			stmt.setString(1, rs.getString("name"));
+			stmt.setString(2, rs.getString("version"));
+			stmt.setString(3, rs.getString("insPath"));
+			stmt.setString(4, rs.getString("reference"));
+			stmt.setString(5, rs.getString("details"));
+			stmt.setString(6, uid);
+			stmt.setString(7, template);
+			stmt.executeUpdate();
 			return true;
+			}
+			else return false;
 		} catch(Exception e) {
 			Cprint.e(" Error occurs: " + e);
 			Cprint.e(" Program adding failed. Please contact system administrator\n");
@@ -312,7 +324,7 @@ public class User{
 				stmt.setString(1, template);
 			} else {	// All Dev created by admin (independent with template -> distinct)
 				stmt = conn.prepareStatement(
-						"SELECT DISTINCT Dev.id, Dev.name, Dev.version, Dev.insPath, Dev.details, Dev.reference FROM Dev WHERE uid = 'admin'");
+						"SELECT DISTINCT Dev.name, Dev.version, Dev.insPath, Dev.details, Dev.reference FROM Dev WHERE uid = 'admin'");
 			}
 			rs = stmt.executeQuery();
 			return rs;
@@ -330,8 +342,7 @@ public class User{
 
 		try {
 			stmt = conn.prepareStatement(
-					"SELECT * FROM Dev"
-							+ " WHERE uid = ?");
+			"SELECT DISTINCT Dev.name, Dev.version, Dev.insPath, Dev.details, Dev.reference FROM Dev WHERE uid = ?");
 			stmt.setString(1, uid);
 			rs = stmt.executeQuery();
 			return rs;

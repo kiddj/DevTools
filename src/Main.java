@@ -85,17 +85,21 @@ public class Main{
                         ManageTools.SearchAdd();
                         break;
                     case 5:
+                        Cprint.b("\n # Add Tools From Template");
+                        addFromTemplate();
+                        break;
+                    case 6:
                         Cprint.b("\n # Add Tools Manually");
                         addProgram();
                         break;
-                    case 6:
+                    case 7:
                         Cprint.b("\n # Restore your Tools");
                         break;
-                    case 7:
+                    case 8:
                         Cprint.b("\n # Delete Tools");
                         deleteProgram();
                         break;
-                    case 8: // Delete Record
+                    case 9: // Delete Record
                         Cprint.e("\n # I sure hope you know what you are doing.");
                         if(User.Delete()) System.exit(0);
                         else break;
@@ -208,6 +212,49 @@ public class Main{
         }
     }
 
+    private static void addFromTemplate(){
+        try{
+        ResultSet templates = User.getAdminTemplates();
+        ArrayList<String> temps = new ArrayList<String>();
+        ArrayList<String> programs = new ArrayList<String>();
+        if(templates != null){
+            TableList list_tp = new TableList(2, "Name","Description").withUnicode(true);
+
+            int index = 1;
+            while(templates.next()){
+                String details = templates.getString("details");
+                if(details == null) details = "";
+                list_tp.addRow(String.valueOf(index) + ". " + ls(templates.getString("name"),15,0),ls(details,50,0));
+                index++;
+                temps.add(templates.getString("name"));
+            }
+            list_tp.print();
+            System.out.print(" Select Template > ");
+
+            String temp = temps.get(input.nextInt()-1);
+            input.nextLine();
+
+            ResultSet rs = User.getPrograms(temp);
+            
+            index = 1;
+            list_tp = new TableList(2, "Name","Description").withUnicode(true);
+            while(rs.next()){
+                 list_tp.addRow(String.valueOf(index) + ". " + ls(rs.getString("name"),15,0),ls(rs.getString("version"),50,0));
+                 programs.add(rs.getString("name"));
+                 index++;
+            }
+            list_tp.print();
+            System.out.print(" Select Program > ");
+            String program = programs.get(input.nextInt()-1);
+            input.nextLine();
+            if(User.addProgramToTemplate(program,temp)) Cprint.w(program + " added to your saved tools.");
+        } else{
+            Cprint.e(" There is no template available :(");
+        }
+        } catch(Exception e){
+        }
+    }
+
     private static void deleteProgram(){
          try{
             ResultSet rs = User.getPrograms_withid();
@@ -250,11 +297,12 @@ public class Main{
         TableList mnu_main = new TableList(2, "Manage Info","Manage Development Tools").withUnicode(true);
         mnu_main.addRow(ls("1. User Information",30,0),ls("3. Show saved Tools",30,0));
         mnu_main.addRow(ls("2. Change Password",30,0), ls("4. Search/Add Local Tools",30,0));
-        mnu_main.addRow(ls("",30,0),ls("5. Add Tools Manually",30,0));
-        mnu_main.addRow(ls("",30,0),ls("6. Restore your Tools",30,0));
-        mnu_main.addRow(ls("",30,0),ls("7. Delete Tools",30,0));
+        mnu_main.addRow(ls("",30,0),ls("5. Add Tools From Template",30,0));
+        mnu_main.addRow(ls("",30,0),ls("6. Add Tools Manually",30,0));
+        mnu_main.addRow(ls("",30,0),ls("7. Restore your Tools",30,0));
+        mnu_main.addRow(ls("",30,0),ls("8. Delete Tools",30,0));
         mnu_main.addRow(ls("",30,0),ls("",30,0));
-        mnu_main.addRow(ls("8. Delete Records",30,0),ls("0. Exit",30,0));
+        mnu_main.addRow(ls("9. Delete Records",30,0),ls("0. Exit",30,0));
         mnu_main.print();
 //        System.out.println("┌--------------------------------┬---------------------------------┐");
 //        System.out.println("│            Your Info           │     Manage Development Tools    │");

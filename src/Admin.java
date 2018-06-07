@@ -118,7 +118,7 @@ public class Admin {
             String temp = temps.get(input.nextInt()-1);
             input.nextLine();
 
-            ResultSet rs = User.getPrograms(null);
+            ResultSet rs = User.getPrograms_withid();
             
             index = 1;
             list_tp = new TableList(2, "Name","Description").withUnicode(true);
@@ -127,6 +127,8 @@ public class Admin {
                  programs.add(rs.getString("name"));
                  index++;
             }
+            list_tp.print();
+            System.out.print(" Select Program > ");
             String program = programs.get(input.nextInt()-1);
             input.nextLine();
             if(User.addProgramToTemplate(program,temp)) Cprint.w(program + " added to " + temp + " template.");
