@@ -248,7 +248,7 @@ public class Main{
             System.out.print(" Select Program > ");
             String program = programs.get(input.nextInt()-1);
             input.nextLine();
-            if(User.addProgramToTemplate(program,temp)) Cprint.w(program + " added to your saved tools.");
+            if(User.addProgramToTemplate(program,null)) Cprint.w(program + " added to your saved tools.");
         } else{
             Cprint.e(" There is no template available :(");
         }

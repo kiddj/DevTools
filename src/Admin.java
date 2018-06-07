@@ -104,7 +104,21 @@ public class Admin {
         if(templates != null){
             TableList list_tp = new TableList(2, "Name","Description").withUnicode(true);
 
+            ResultSet rs = User.getPrograms_withid();
+            
             int index = 1;
+            while(rs.next()){
+                 list_tp.addRow(String.valueOf(index) + ". " + ls(rs.getString("name"),15,0),ls(rs.getString("version"),50,0));
+                 programs.add(rs.getString("name"));
+                 index++;
+            }
+            list_tp.print();
+            System.out.print(" Select Program > ");
+            String program = programs.get(input.nextInt()-1);
+            input.nextLine();
+
+            index = 1;
+            list_tp = new TableList(2, "Name","Description").withUnicode(true);
             while(templates.next()){
                 String details = templates.getString("details");
                 if(details == null) details = "";
@@ -118,19 +132,6 @@ public class Admin {
             String temp = temps.get(input.nextInt()-1);
             input.nextLine();
 
-            ResultSet rs = User.getPrograms_withid();
-            
-            index = 1;
-            list_tp = new TableList(2, "Name","Description").withUnicode(true);
-            while(rs.next()){
-                 list_tp.addRow(String.valueOf(index) + ". " + ls(rs.getString("name"),15,0),ls(rs.getString("version"),50,0));
-                 programs.add(rs.getString("name"));
-                 index++;
-            }
-            list_tp.print();
-            System.out.print(" Select Program > ");
-            String program = programs.get(input.nextInt()-1);
-            input.nextLine();
             if(User.addProgramToTemplate(program,temp)) Cprint.w(program + " added to " + temp + " template.");
         } else{
             Cprint.e(" There is no template available :(");
