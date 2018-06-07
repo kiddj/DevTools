@@ -52,7 +52,7 @@ public class Admin {
             if (sel_temp == -1) return;
             String temp = temps.get(sel_temp);
 
-            if(User.deleteTemplate(temp)) Cprint.w(" [" + temp + "] template deleted.");
+            if(User.deleteTemplate(temp)) Cprint.e(" [" + temp + "] template deleted.");
         } else{
             Cprint.e(" There is no template available :(");
         }
@@ -96,7 +96,7 @@ public class Admin {
 
             SWinfo program = programs.get(input.nextInt()-1);
             input.nextLine();
-            if(User.deleteProgram(program,temp)) Cprint.w(" [" + program.name + " " + program.version + "] deleted from " + temp + " template.");
+            if(User.deleteProgram(program,temp)) Cprint.e(" [" + program.name + " " + program.version + "] deleted from " + temp + " template.");
         } else{
             Cprint.e(" There is no template available :(");
         }
