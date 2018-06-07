@@ -272,8 +272,8 @@ public class User{
 			stmt.setString(6, uid);
 			stmt.setString(7, temp);
 			stmt.executeUpdate();
-
-			Cprint.i(" [" + name + "] added to " + temp + " Template successfully");
+			if (temp!= null) Cprint.i(" [" + name + "] added to " + temp + " Template successfully");
+			else Cprint.i(" [" + name + "] added to your Template successfully");
 			return true;
 		} catch(Exception e) {
 			Cprint.e(" Error occurs: " + e);

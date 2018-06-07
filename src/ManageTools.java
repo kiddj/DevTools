@@ -76,7 +76,7 @@ public class ManageTools {
                 int sel_in = input.nextInt() - 1;
                 input.nextLine();
                 SWinfo sel_sw = mtool.get(sel_in);
-                User.addDev(sel_sw.name,sel_sw.version,sel_sw.insPath,sel_sw.reference,sel_sw.details,User.uid);
+                User.addDev(sel_sw.name,sel_sw.version,sel_sw.insPath,sel_sw.reference,sel_sw.details,null);
             } catch (Exception e) {
                 Cprint.e(" Error occurs : " + e);
             }
