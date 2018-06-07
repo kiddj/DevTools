@@ -58,13 +58,12 @@ public class Sysinfo {
             for (int i = 0; i < tmp_list.length; i++) {
                 p_loadSW.load(i, tmp_list.length - 1);
                 String sw = tmp_list[i];
-                SWinfo tmp_info = new SWinfo();
-                tmp_info.name = getName(install_path + "\\" + sw + "\" /v DisplayName");
-                if(tmp_info.name == null) continue;
-                tmp_info.name = new String(tmp_info.name.getBytes("iso-8859-1"),"EUC-KR");
-                tmp_info.version = getName(install_path + "\\" + sw + "\" /v DisplayVersion");
-                if(tmp_info.version == null) tmp_info.version = "Unknown";
-                list_sw.add(tmp_info);
+                String sw_name = getName(install_path + "\\" + sw + "\" /v DisplayName");
+                if(sw_name == null) continue;
+                sw_name = new String(sw_name.getBytes("iso-8859-1"),"EUC-KR");
+                String sw_version = getName(install_path + "\\" + sw + "\" /v DisplayVersion");
+                if(sw_version == null) sw_version = "Unknown";
+                list_sw.add(new SWinfo(sw_name,sw_version));
             }
         } catch (Exception e) {
             System.out.println(e);
@@ -104,7 +103,7 @@ public class Sysinfo {
         }
         if (scan == 1) {
             getInstalledList(64);
-            getInstalledList(32);
+//            getInstalledList(32);
             // Sorting
             Ascending ascending = new Ascending();
             Collections.sort(list_sw, ascending);
