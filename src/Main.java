@@ -135,7 +135,7 @@ public class Main{
                         Admin.addProgram();
                         break;
                     case 5:
-                        Cprint.b("\n # Add Tool to Template - Select Template");
+                        Cprint.b("\n # Add Tool to Template - Select Tool");
                         Admin.addProgramToTemplate();
                         break;
                     case 6:
@@ -265,7 +265,7 @@ public class Main{
                  index++;
             }
             list_tp.print();
-            System.out.print(" Select Program (Exit:0) > ");
+            System.out.print(" Select Tool (Exit:0) > ");
             int sel_sw = input.nextInt() - 1;
             input.nextLine();
             if (sel_sw == -1) return;
@@ -294,7 +294,7 @@ public class Main{
                 programs.add(new SWinfo(rs.getString("name"),rs.getString("version")));
             }
             list_tp.print();
-            System.out.print(" Select Program (Exit:0) > ");
+            System.out.print(" Select Tool (Exit:0) > ");
 
              int sel_sw = input.nextInt() - 1;
              input.nextLine();

@@ -92,7 +92,7 @@ public class Admin {
                  index++;
             }
             list_tp.print();
-            System.out.print(" Select Program > ");
+            System.out.print(" Select ToolS > ");
 
             SWinfo program = programs.get(input.nextInt()-1);
             input.nextLine();
@@ -102,22 +102,22 @@ public class Admin {
         }
         } catch(Exception e){
         }
-    }
+}
 
     public static void addProgram() {
         try{
-                System.out.print(" Name: ");
-                String name = input.nextLine();
-                System.out.print(" Version: ");
-                String version = input.nextLine();
-                System.out.print(" Download URL: ");
-                String insPath = input.nextLine();
-                System.out.print(" Reference: ");
-                String reference = input.nextLine();
-                System.out.print(" Details: ");
-                String details = input.nextLine();
+            System.out.print(" Name: ");
+            String name = input.nextLine();
+            System.out.print(" Version: ");
+            String version = input.nextLine();
+            System.out.print(" Download URL: ");
+            String insPath = input.nextLine();
+            System.out.print(" Reference: ");
+            String reference = input.nextLine();
+            System.out.print(" Details: ");
+            String details = input.nextLine();
 
-                User.addDev(name,version,insPath,reference,details, null);
+            User.addDev(name,version,insPath,reference,details, null);
         } catch(Exception e){
         }
     }
@@ -138,7 +138,7 @@ public class Admin {
                  index++;
             }
             list_tp.print();
-            System.out.print(" Select Program > ");
+            System.out.print(" Select Tool > ");
             SWinfo program = programs.get(input.nextInt()-1);
             input.nextLine();
 
@@ -157,7 +157,7 @@ public class Admin {
             String temp = temps.get(input.nextInt()-1);
             input.nextLine();
 
-            if(User.addProgramToTemplate(program,temp)) Cprint.w(" [" + program.name + " " + program.version + " added to " + temp + " template.");
+            if(User.addProgramToTemplate(program,temp)) Cprint.i(" [" + program.name + " " + program.version + "] added to " + temp + " template.");
         } else{
             Cprint.e(" There is no template available :(");
         }
