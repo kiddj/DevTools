@@ -192,9 +192,9 @@ public class User{
 		String name = "", details = "";
 		PreparedStatement stmt = null;
 		try {
-			System.out.print("Name: ");
+			System.out.print(" Name: ");
 			name = input.nextLine();
-			System.out.print("Details: ");
+			System.out.print(" Details: ");
 			details = input.nextLine();
 		    stmt = conn.prepareStatement(
 	    	        "INSERT INTO Template (name,createdBy,details)"

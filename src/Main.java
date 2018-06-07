@@ -47,9 +47,11 @@ public class Main{
 //                    System.out.println("Bye bye");
                     System.exit(0);
                 case 1:
+                    Cprint.b("\n # Login");
                     Login();
                     break;
                 case 2:
+                    Cprint.b("\n # Register");
                     Register();
                     break;
                 default:
@@ -67,21 +69,28 @@ public class Main{
                     case 0:
                         continue;
                     case 1:
+                        Cprint.b("\n # User Information");
                         User.printInfo();
                         break;
                     case 2:
+                        Cprint.b("\n # Change Password");
                         User.changePassword();
                         break;
                     case 3:
+                        Cprint.b("\n # Show My Tools");
                         break;
                     case 4: // Search/Add Installed Tools
+                        Cprint.b("\n # Search/Add Installed Tools");
                         ManageTools.SearchAdd();
                         break;
                     case 5:
+                        Cprint.b("\n # Add Tools Manually");
                         break;
                     case 6:
+                        Cprint.b("\n # Restore your Tools");
                         break;
                     case 7: // Delete Record
+                        Cprint.e("\n # I sure hope you know what you are doing.");
                         if(User.Delete()) System.exit(0);
                         else break;
                     default:
@@ -99,15 +108,19 @@ public class Main{
                     case 0:
                         continue;
                     case 1:
+                        Cprint.b("\n # User Information");
                         User.printInfo();
                         break;
                     case 2:
+                        Cprint.b("\n # View Template - Select Template for Details");
                         Admin.checkProgram();
                         break;
                     case 3:
+                        Cprint.b("\n # Add Tools to Template - Select Template");
                         Admin.addProgram();
                         break;
                     case 4:
+                        Cprint.b("\n # Add Template - Enter Information");
                         User.createTemplate();
                         break;
                     default:
