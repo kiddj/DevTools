@@ -111,7 +111,7 @@ public class Sysinfo {
             Collections.sort(local_sw, ascending);
             Cprint.i(" Loading is complete.");
         }
-        System.out.print(" Do you want to print the list? (a:ascending, d:descending, n) ");
+        System.out.print(" Do you want to print the list? ((a)scending, (d)escending, n) ");
         String isp = input.nextLine().toLowerCase();
         if(isp.equals("a")) printInfo(0);
         else if (isp.equals("d")) printInfo(1);
