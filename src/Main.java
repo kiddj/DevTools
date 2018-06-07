@@ -127,8 +127,7 @@ public class Main{
                         Admin.checkProgram();
                         break;
                     case 3:
-                        Cprint.b("\n # Search Tools - (All, Admin, Name, Uid)");
-                        Admin.searchTools();
+                        printToolOption();
                         break;
                     case 4:
                         Cprint.b("\n # Add Tool - Enter Information");
@@ -159,6 +158,23 @@ public class Main{
 
         //Terminate => Maybe backup automatically...
         System.exit(0);
+    }
+
+    private static void printToolOption(){
+        Cprint.b("Search Tools - Select Option");
+
+        TableList list_tp = new TableList(1, "Option").withUnicode(true);
+        list_tp.addRow(ls("1. All",20,0));
+        list_tp.addRow(ls("2. Default",20,0));
+        list_tp.addRow(ls("3. Name",20,0));
+        list_tp.addRow(ls("4. ID",20,0)); 
+        list_tp.print();      
+        System.out.print(" Select Option > ");
+
+        String[] options = {"All","Admin","Name","Uid"};
+        int index = input.nextInt()-1;
+        Admin.searchTools(options[index]);
+        input.nextLine();
     }
 
     private static void displayLogo() {
