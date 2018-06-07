@@ -9,11 +9,15 @@ import java.util.Scanner;
 import java.io.Console;
 
 public class User{
-	private Connection conn = null;
-	private MessageDigest md = null;
+	private static Connection conn = null;
+	private static MessageDigest md = null;
 	private static Scanner input = new Scanner(System.in);
-	
-	public User() {
+
+	// User info
+    public static String uid, pwd;
+    public static int auth = 0;
+
+	public User(String user_id, String user_pw) {
 		try {
 		Class.forName("com.mysql.cj.jdbc.Driver");
 		conn = DriverManager.getConnection("jdbc:mysql://211.249.61.207/DevTools?serverTimezone=UTC&useSSL=false", "devtools", "tlftmq1");
@@ -23,9 +27,10 @@ public class User{
 			Cprint.e(" Error occurs: " + e);
 			Cprint.e(" Database Connection Error");
 		}
+		Login(user_id,user_pw);
 	}
 
-	public Boolean Delete(String uid){
+	public static Boolean Delete(){
 		//Confirm
 		Cprint.e(" Are you sure you want to delete your account? (y,n): ","");
 		String cfm = input.nextLine().toLowerCase();
@@ -51,7 +56,7 @@ public class User{
 		}
 	}
 	
-	public Boolean Register(String uid, String pwd, String sex, String name){
+	public static Boolean Register(String uid, String pwd, String sex, String name){
 		PreparedStatement stmt = null;
 		try {
 		    stmt = conn.prepareStatement(
@@ -79,8 +84,10 @@ public class User{
 		}
 	}
 
-	public int Login(String uid, String pwd){
-		ResultSet rs = null;
+	public static int Login(String user_uid, String user_pw){
+		uid = user_uid;
+		pwd = user_pw;
+	    ResultSet rs = null;
 		PreparedStatement stmt = null;
 		try {
 		    stmt = conn.prepareStatement(
@@ -95,7 +102,8 @@ public class User{
 
 			if(rs.next()){
 				Cprint.i("\n Welcome "+rs.getString("name")+"!\n");
-				return rs.getInt("auth");
+				auth = rs.getInt("auth");
+				return 0;
 		  } else{
 			Cprint.e(" Login failed: Please check your ID and Password");
 		  	return 0;
@@ -106,7 +114,7 @@ public class User{
 		}
 	}
 
-	public Boolean changePassword(String uid) {
+	public static Boolean changePassword() {
 		PreparedStatement stmt = null;
 
 //		System.out.println(" ---------- Change Password ----------");
@@ -140,7 +148,7 @@ public class User{
 		}
 	}
 
-	public void printInfo(String uid){
+	public static void printInfo(){
 		PreparedStatement stmt = null;
 		String sex = "", level = "";
 		ResultSet rs = null;
@@ -180,7 +188,7 @@ public class User{
 
 	}
 	
-	public Boolean createTemplate(){
+	public static Boolean createTemplate(){
 		String name = "", details = "";
 		PreparedStatement stmt = null;
 		try {
@@ -206,7 +214,7 @@ public class User{
 	}
 
 	//Admin + 본인 템플릿
-	public ResultSet getAdminTemplates(){
+	public static ResultSet getAdminTemplates(){
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
 		ArrayList<String> output = new ArrayList<String>();
@@ -226,7 +234,7 @@ public class User{
 	}
 
 	//Admin + 본인 템플릿
-	public ResultSet getTemplates(String uid){
+	public static ResultSet getTemplates(){
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
 
@@ -238,6 +246,10 @@ public class User{
 			stmt.setString(1, "admin");
 			stmt.setString(2, uid);
 			rs = stmt.executeQuery();
+
+			while(rs.next()){
+				output.add(rs.getString("name"));
+			}
 			
 			return rs;
 		} catch(Exception e) {
@@ -247,7 +259,7 @@ public class User{
 		}
 	}
 
-	public Boolean addDev(String name, String version, String insPath, String reference, String details, String uid, String temp){
+	public static Boolean addDev(String name, String version, String insPath, String reference, String details, String temp){
 		PreparedStatement stmt = null;
 		try {
 		    stmt = conn.prepareStatement(
@@ -271,7 +283,7 @@ public class User{
 		}
 	}
 
-	public ResultSet getPrograms(String template){
+	public static ResultSet getPrograms(String template){
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
 

@@ -13,9 +13,7 @@ import java.sql.ResultSet;
 
 public class Main{
     private static Scanner input = new Scanner(System.in);
-    private static User user =  new User();
-    private static String uid, pwd;
-    private static int auth = 0;
+    public static User User;
     private static String str_ver = "0.1.0";
 
     //Test all encoding type
@@ -41,7 +39,7 @@ public class Main{
         // Select Menu
         int user_choice = -1;
 
-        while(auth == 0){
+        while(User.auth == 0){
             user_choice = displayLoginMenu();
             input.nextLine();
             switch (user_choice) {
@@ -61,7 +59,7 @@ public class Main{
         }
         user_choice = -1;
         //Normal User
-        if(auth == 1){
+        if(User.auth == 1){
             while(user_choice != 0){
                 user_choice = displayMenu();
                 input.nextLine();
@@ -69,10 +67,10 @@ public class Main{
                     case 0:
                         continue;
                     case 1:
-                        user.printInfo(uid);
+                        User.printInfo();
                         break;
                     case 2:
-                        user.changePassword(uid);
+                        User.changePassword();
                         break;
                     case 3:
                         break;
@@ -84,7 +82,7 @@ public class Main{
                     case 6:
                         break;
                     case 7: // Delete Record
-                        if(user.Delete(uid)) System.exit(0);
+                        if(User.Delete()) System.exit(0);
                         else break;
                     default:
                         Cprint.e(" You've entered a wrong number");
@@ -93,7 +91,7 @@ public class Main{
             }
         }
         //Admin User
-        else if(auth == 2){
+        else if(User.auth == 2){
             while(user_choice != 0){
                 user_choice = displayAdminMenu();
                 input.nextLine();
@@ -101,16 +99,16 @@ public class Main{
                     case 0:
                         continue;
                     case 1:
-                        user.printInfo(uid);
+                        User.printInfo();
                         break;
                     case 2:
-                        checkProgram();
+                        Admin.checkProgram();
                         break;
                     case 3:
-                        addProgram();
+                        Admin.addProgram();
                         break;
                     case 4:
-                        user.createTemplate();
+                        User.createTemplate();
                         break;
                     default:
                         Cprint.e(" You've entered a wrong number");
@@ -135,9 +133,9 @@ public class Main{
         // Login
         do {
             promptLogin();
-            auth = user.Login(uid,pwd);
+//            auth = user.Login(uid,pwd);
         }
-        while(auth == 0);
+        while(User.auth == 0);
     }
 
     private static void Register() {
@@ -158,7 +156,7 @@ public class Main{
         }
         System.out.print(" Sex (M,F) : ");
         s = input.nextLine();
-        user.Register(uid, pw, s, name);
+        User.Register(uid, pw, s, name);
     }
 
     private static int displayLoginMenu() {
@@ -212,10 +210,12 @@ public class Main{
 
     private static void promptLogin() {
 //            System.out.println("\n ---------- Login ----------");
+        String uid, pwd;
         System.out.print(" Enter ID: ");
         uid = input.nextLine();
         System.out.print(" Enter Password: ");
         pwd = getPassword();
+        User = new User(uid,pwd);
     }
 
     private static String getPassword() {
@@ -230,75 +230,6 @@ public class Main{
 
         char[] passwordArray = console.readPassword("");
         return new String(passwordArray);
-    }
-
-    private static void addProgram() {
-        ArrayList<String> templates = user.getAdminTemplates();
-        if(templates.size() > 0){
-            TableList list_tp = new TableList(2, "Name","Description").withUnicode(true);
-
-            int index = 1;
-            for(String template : templates){
-                list_tp.addRow(String.valueOf(index) + ". "  + ls(template,15,0),ls("",50,0));
-                index++;
-            }
-            list_tp.print();
-            System.out.print(" Select Template > ");
-
-            String temp = templates.get(input.nextInt()-1);
-            input.nextLine();
-
-            System.out.print(" Name: ");
-            String name = input.nextLine();
-            System.out.print(" Version: ");
-            String version = input.nextLine();
-            System.out.print(" Download URL: ");
-            String insPath = input.nextLine();
-            System.out.print(" Reference: ");
-            String reference = input.nextLine();
-            System.out.print(" Details: ");
-            String details = input.nextLine();
-
-            user.addDev(name,version,insPath,reference,details,uid,temp);
-        } else{
-            Cprint.e(" There is no template available :(");
-        }
-    }
-
-    private static void checkProgram(){
-        ArrayList<String> templates = user.getAdminTemplates();
-        if(templates.size() > 0){
-            TableList list_tp = new TableList(2, "Name","Description").withUnicode(true);
-
-            int index = 1;
-            for(String template : templates){
-                list_tp.addRow(String.valueOf(index) + ". "  + ls(template,15,0),ls("",50,0));
-                index++;
-            }
-            list_tp.print();
-            System.out.print(" Select Template > ");
-            
-            String temp = templates.get(input.nextInt()-1);
-            input.nextLine();
-
-            ResultSet rs = user.getPrograms(temp);
-
-            TableList detail_tp = new TableList(1,temp).withUnicode(true);
-            int index_sw = 0;
-            try{
-                while(rs.next()){
-                    index_sw++;
-                    String dsw = String.valueOf(index_sw) + ". " + rs.getString("name") + " " + rs.getString("version")  + "(" + rs.getString("insPath") + ")";
-                    detail_tp.addRow(ls(dsw,70,0));
-                }
-            } catch (Exception e){
-                Cprint.e(" Error occurs" + e);
-            }
-            if (index_sw == 0) detail_tp.addRow(ls("Tool does not exist",70,0));
-            detail_tp.print();
-        } else{
-            Cprint.e(" There is no template available :(");
-        }
     }
 
     private static String ls(String str, int width, int align){
