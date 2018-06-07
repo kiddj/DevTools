@@ -206,7 +206,7 @@ public class User{
 	}
 
 	//Admin + 본인 템플릿
-	public ArrayList<String> getAdminTemplates(){
+	public ResultSet getAdminTemplates(){
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
 		ArrayList<String> output = new ArrayList<String>();
@@ -217,11 +217,7 @@ public class User{
 			stmt.setString(1, "admin");
 			rs = stmt.executeQuery();
 
-			while(rs.next()){
-				output.add(rs.getString("name"));
-			}
-			
-			return output;
+			return rs;
 		} catch(Exception e) {
 			Cprint.e(" Error occurs: " + e);
 			Cprint.e(" Failed. Please contact system administrator\n");
@@ -230,7 +226,7 @@ public class User{
 	}
 
 	//Admin + 본인 템플릿
-	public ArrayList<String> getTemplates(String uid){
+	public ResultSet getTemplates(String uid){
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
 
@@ -242,12 +238,8 @@ public class User{
 			stmt.setString(1, "admin");
 			stmt.setString(2, uid);
 			rs = stmt.executeQuery();
-
-			while(rs.next()){
-				output.add(rs.getString("name"));
-			}
 			
-			return output;
+			return rs;
 		} catch(Exception e) {
 			Cprint.e(" Error occurs: " + e);
 			Cprint.e(" Failed. Please contact system administrator\n");
