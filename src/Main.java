@@ -77,11 +77,11 @@ public class Main{
                         User.changePassword();
                         break;
                     case 3:
-                        Cprint.b("\n # Show Saved Tools");
+                        Cprint.b("\n # Your Saved Tools");
                         ManageTools.ShowTools();
                         break;
                     case 4: // Search/Add Installed Tools
-                        Cprint.b("\n # Search/Add Installed Tools");
+                        Cprint.b("\n # Search/Add Local Tools");
                         ManageTools.SearchAdd();
                         break;
                     case 5:
@@ -189,7 +189,7 @@ public class Main{
         displayLogo();
         TableList mnu_main = new TableList(2, "Manage Info","Manage Development Tools").withUnicode(true);
         mnu_main.addRow(ls("1. User Information",30,0),ls("3. Show saved Tools",30,0));
-        mnu_main.addRow(ls("2. Change Password",30,0), ls("4. Search/Add Installed Tools",30,0));
+        mnu_main.addRow(ls("2. Change Password",30,0), ls("4. Search/Add Local Tools",30,0));
         mnu_main.addRow(ls("",30,0),ls("5. Add Tools Manually",30,0));
         mnu_main.addRow(ls("",30,0),ls("6. Restore your Tools",30,0));
         mnu_main.addRow(ls("",30,0),ls("",30,0));

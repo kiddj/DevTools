@@ -103,7 +103,7 @@ public class Sysinfo {
         }
         if (scan == 1) {
             getInstalledList(64);
-//            getInstalledList(32);
+            getInstalledList(32);
             // Sorting
             Ascending ascending = new Ascending();
             Collections.sort(list_sw, ascending);

@@ -7,12 +7,12 @@ public class SWinfo {
         version = v;
     }
 
-    public SWinfo(String n, String v, String in, String ref, String dt, String tmp){
+    public SWinfo(String n, String v, String in, String ref, String dt){
         name = n;
         version = v;
         insPath = in;
         reference = ref;
         details = dt;
-        template = tmp;
+//        template = tmp;
     }
 }

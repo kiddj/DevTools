@@ -272,8 +272,8 @@ public class User{
 			stmt.setString(6, uid);
 			stmt.setString(7, temp);
 			stmt.executeUpdate();
-			if (temp!= null) Cprint.i(" [" + name + "] added to " + temp + " Template successfully");
-			else Cprint.i(" [" + name + "] added to your Template successfully");
+			if (temp!= null) Cprint.i("\n [" + name + " " + version + "] added to " + temp + " Template successfully");
+			else Cprint.i("\n [" + name + " " + version + "] saved successfully");
 			return true;
 		} catch(Exception e) {
 			Cprint.e(" Error occurs: " + e);
@@ -292,10 +292,29 @@ public class User{
 						"SELECT * FROM Dev"
 								+ " WHERE template = ?");
 				stmt.setString(1, template);
-			} else {	// All Dev
+			} else {	// All Dev created by admin (independent with template -> distinct)
 				stmt = conn.prepareStatement(
-						"SELECT * FROM Dev");
+						"SELECT DISTINCT Dev.id, Dev.name, Dev.version, Dev.insPath, Dev.details, Dev.reference FROM Dev WHERE uid = 'admin'");
 			}
+			rs = stmt.executeQuery();
+			return rs;
+		} catch(Exception e) {
+			Cprint.e(" Error occurs: " + e);
+			Cprint.e(" Failed. Please contact system administrator\n");
+			return null;
+		}
+	}
+
+	// No template (For general User)
+	public static ResultSet getPrograms_withid(){
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+
+		try {
+			stmt = conn.prepareStatement(
+					"SELECT * FROM Dev"
+							+ " WHERE uid = ?");
+			stmt.setString(1, uid);
 			rs = stmt.executeQuery();
 			return rs;
 		} catch(Exception e) {
