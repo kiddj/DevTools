@@ -67,8 +67,9 @@ public class TableList {
         return this;
     }
 
-    public TableList sortBy(int column) {
-        return this.compareWith((o1, o2) -> o1[column].compareTo(o2[column]));
+    public TableList sortBy(int column, int sort) {
+        if (sort ==0 ) return this.compareWith((o1, o2) -> o1[column].compareTo(o2[column]));
+        else return this.compareWith((o1, o2) -> o2[column].compareTo(o1[column]));
     }
 
     public TableList align(int column, EnumAlignment align) {

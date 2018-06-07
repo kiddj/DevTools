@@ -111,13 +111,14 @@ public class Sysinfo {
             Collections.sort(local_sw, ascending);
             Cprint.i(" Loading is complete.");
         }
-        System.out.print(" Do you want to print the list? (y,n) ");
+        System.out.print(" Do you want to print the list? (a:ascending, d:descending, n) ");
         String isp = input.nextLine().toLowerCase();
-        if(isp.equals("y")) printInfo();
+        if(isp.equals("a")) printInfo(0);
+        else if (isp.equals("d")) printInfo(1);
     }
 
-    public static void printInfo(){
-        TableList info_sw = new TableList(2, "Name", "Version").sortBy(0).withUnicode(true);
+    public static void printInfo(int sort){
+        TableList info_sw = new TableList(2, "Name", "Version").sortBy(0,sort).withUnicode(true);
         for(SWinfo installed_sw : local_sw){
             info_sw.addRow(String.format("%-50.50s", installed_sw.name),String.format("%10.10s", installed_sw.version));
             //System.out.printf(" %s (%s)\n",installed_sw.name,installed_sw.version);
