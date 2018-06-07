@@ -127,6 +127,7 @@ public class Main{
                         Admin.checkProgram();
                         break;
                     case 3:
+                        Cprint.b("\n # Search Tools - Select Option");
                         printToolOption();
                         break;
                     case 4:
@@ -161,8 +162,6 @@ public class Main{
     }
 
     private static void printToolOption(){
-        Cprint.b("Search Tools - Select Option");
-
         TableList list_tp = new TableList(1, "Option").withUnicode(true);
         list_tp.addRow(ls("1. All",20,0));
         list_tp.addRow(ls("2. Default",20,0));
@@ -237,7 +236,7 @@ public class Main{
         try{
         ResultSet templates = User.getAdminTemplates();
         ArrayList<String> temps = new ArrayList<String>();
-        ArrayList<String> programs = new ArrayList<String>();
+        ArrayList<SWinfo> programs = new ArrayList<SWinfo>();
         if(templates != null){
             TableList list_tp = new TableList(2, "Name","Description").withUnicode(true);
 
@@ -262,16 +261,17 @@ public class Main{
             list_tp = new TableList(2, "Name","Description").withUnicode(true);
             while(rs.next()){
                  list_tp.addRow(String.valueOf(index) + ". " + ls(rs.getString("name"),15,0),ls(rs.getString("version"),50,0));
-                 programs.add(rs.getString("name"));
+                 programs.add(new SWinfo(rs.getString("name"),rs.getString("version")));
                  index++;
             }
             list_tp.print();
             System.out.print(" Select Program (Exit:0) > ");
             int sel_sw = input.nextInt() - 1;
-            if (sel_sw == -1) return;
-            String program = programs.get(sel_sw);
             input.nextLine();
-            if(User.addProgramToTemplate(program,temp)) Cprint.i(" [" + program + "] saved successfully.");
+            if (sel_sw == -1) return;
+            SWinfo program = programs.get(sel_sw);
+
+            if(User.addProgramToTemplate(program,temp)) Cprint.i(" [" + program.name + " " + program.version + "] saved successfully.");
         } else{
             Cprint.e(" There is no template available :(");
         }
@@ -282,26 +282,26 @@ public class Main{
     private static void deleteProgram(){
          try{
             ResultSet rs = User.getPrograms_withid();
-            ArrayList<String> programs = new ArrayList<String>();
+            ArrayList<SWinfo> programs = new ArrayList<SWinfo>();
             TableList list_tp = new TableList(2, "Name","Description").withUnicode(true);
             int index = 1;
 
             while(rs.next()){
                 String details = rs.getString("details");
                 if(details == null) details = "";
-                list_tp.addRow(String.valueOf(index) + ". " + ls(rs.getString("name"),15,0),ls(details,50,0));
+                list_tp.addRow(String.valueOf(index) + ". " + ls(rs.getString("name") + " " + rs.getString("version"),15,0),ls(details,50,0));
                 index++;
-                programs.add(rs.getString("name"));
+                programs.add(new SWinfo(rs.getString("name"),rs.getString("version")));
             }
             list_tp.print();
             System.out.print(" Select Program (Exit:0) > ");
 
              int sel_sw = input.nextInt() - 1;
-             if (sel_sw == -1) return;
-             String program = programs.get(sel_sw);
              input.nextLine();
+             if (sel_sw == -1) return;
+             SWinfo program = programs.get(sel_sw);
 
-            if(User.deleteProgram(program)) Cprint.w(program + " deleted from your saved tools.");
+            if(User.deleteProgram(program,null)) Cprint.w(" [" + program.name + " " + program.version +"] deleted from your saved tools.");
         } catch(Exception e){
              Cprint.e(" Error occurs : " + e);
              Cprint.e(" Failed. Please contact system administrator");

@@ -299,12 +299,13 @@ public class User{
 		}
 	}
 
-	public static Boolean addProgramToTemplate(String program, String template){
+	public static Boolean addProgramToTemplate(SWinfo program, String template){
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
 		try {
-			stmt = conn.prepareStatement("SELECT * from Dev WHERE name = ?");
-			stmt.setString(1, program);
+			stmt = conn.prepareStatement("SELECT * from Dev WHERE name = ? and version = ?");
+			stmt.setString(1, program.name);
+			stmt.setString(2, program.version);
 			rs = stmt.executeQuery();
 
 		    stmt = conn.prepareStatement(
@@ -404,15 +405,17 @@ public class User{
 		}
 	}
 
-	public static Boolean deleteProgram(String name){
+	public static Boolean deleteProgram(SWinfo sw_del, String tmp){
 		PreparedStatement stmt = null;
 
 		try {
 			stmt = conn.prepareStatement(
 					"DELETE FROM Dev"
-							+ " WHERE name = ? and uid = ?");
-			stmt.setString(1, name);
-			stmt.setString(2, uid);
+							+ " WHERE name = ? and version = ? and uid = ? and template "
+							+ (tmp==null?"is null":("= \'"+ tmp + "\'" )));
+			stmt.setString(1, sw_del.name);
+			stmt.setString(2, sw_del.version);
+			stmt.setString(3, uid);
 			stmt.executeUpdate();
 			return true;
 		} catch(Exception e) {

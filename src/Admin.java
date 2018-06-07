@@ -45,12 +45,14 @@ public class Admin {
                 temps.add(templates.getString("name"));
             }
             list_tp.print();
-            System.out.print(" Select Template > ");
+            System.out.print(" Select Template (Exit:0) > ");
 
-            String temp = temps.get(input.nextInt()-1);
+            int sel_temp = input.nextInt() - 1;
             input.nextLine();
+            if (sel_temp == -1) return;
+            String temp = temps.get(sel_temp);
 
-            if(User.deleteTemplate(temp)) Cprint.w(temp + " template deleted.");
+            if(User.deleteTemplate(temp)) Cprint.w(" [" + temp + "] template deleted.");
         } else{
             Cprint.e(" There is no template available :(");
         }
@@ -62,7 +64,7 @@ public class Admin {
         try{
         ResultSet templates = User.getAdminTemplates();
         ArrayList<String> temps = new ArrayList<String>();
-        ArrayList<String> programs = new ArrayList<String>();
+        ArrayList<SWinfo> programs = new ArrayList<SWinfo>();
         if(templates != null){
             TableList list_tp = new TableList(2, "Name","Description").withUnicode(true);
 
@@ -86,15 +88,15 @@ public class Admin {
             list_tp = new TableList(2, "Name","Description").withUnicode(true);
             while(rs.next()){
                  list_tp.addRow(String.valueOf(index) + ". " + ls(rs.getString("name"),15,0),ls(rs.getString("version"),50,0));
-                 programs.add(rs.getString("name"));
+                 programs.add(new SWinfo(rs.getString("name"),rs.getString("version")));
                  index++;
             }
             list_tp.print();
             System.out.print(" Select Program > ");
 
-            String program = programs.get(input.nextInt()-1);
+            SWinfo program = programs.get(input.nextInt()-1);
             input.nextLine();
-            if(User.deleteProgram(program)) Cprint.w(program + " deleted from " + temp + " template.");
+            if(User.deleteProgram(program,temp)) Cprint.w(" [" + program.name + " " + program.version + "] deleted from " + temp + " template.");
         } else{
             Cprint.e(" There is no template available :(");
         }
@@ -123,7 +125,7 @@ public class Admin {
         try{
         ResultSet templates = User.getAdminTemplates();
         ArrayList<String> temps = new ArrayList<String>();
-        ArrayList<String> programs = new ArrayList<String>();
+        ArrayList<SWinfo> programs = new ArrayList<SWinfo>();
         if(templates != null){
             TableList list_tp = new TableList(2, "Name","Description").withUnicode(true);
 
@@ -132,12 +134,12 @@ public class Admin {
             int index = 1;
             while(rs.next()){
                  list_tp.addRow(String.valueOf(index) + ". " + ls(rs.getString("name"),15,0),ls(rs.getString("version"),50,0));
-                 programs.add(rs.getString("name"));
+                 programs.add(new SWinfo(rs.getString("name"),rs.getString("version")));
                  index++;
             }
             list_tp.print();
             System.out.print(" Select Program > ");
-            String program = programs.get(input.nextInt()-1);
+            SWinfo program = programs.get(input.nextInt()-1);
             input.nextLine();
 
             index = 1;
@@ -155,7 +157,7 @@ public class Admin {
             String temp = temps.get(input.nextInt()-1);
             input.nextLine();
 
-            if(User.addProgramToTemplate(program,temp)) Cprint.w(program + " added to " + temp + " template.");
+            if(User.addProgramToTemplate(program,temp)) Cprint.w(" [" + program.name + " " + program.version + " added to " + temp + " template.");
         } else{
             Cprint.e(" There is no template available :(");
         }
