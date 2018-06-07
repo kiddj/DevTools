@@ -77,6 +77,7 @@ public class ManageTools {
             ResultSet rs = User.getPrograms_withid();  // get All Dev (created by admin)
             ArrayList<SWinfo> rtool = new ArrayList<SWinfo>();
             ArrayList<SWinfo> sw_unins = new ArrayList<SWinfo>();
+            ArrayList<SWinfo> sw_ins = new ArrayList<SWinfo>();
 
             TableList match_tools = new TableList(2, "Saved Tools", "Installed Tools").withUnicode(true);
             int index_sw = 0;
@@ -97,6 +98,7 @@ public class ManageTools {
                         if (installed_sw.name.toLowerCase().contains(loaded_sw.name.toLowerCase())) {   // Match (User save <-> Local)
                             String dsw_local = installed_sw.name + " " + installed_sw.version;
                             match_tools.addRow(ls((installed_count==0)?dsw_server:"", 20, 0), ls(dsw_local, 40, 0));
+                            if(installed_count == 0) sw_ins.add(loaded_sw);
                             installed_count++;
                         }
                     }
@@ -112,6 +114,15 @@ public class ManageTools {
             }
             if (index_sw == 0) match_tools.addRow(ls("No Tool saved in Server", 20, 0), ls("", 40, 0));
             match_tools.print();
+
+            //Notice
+            for (SWinfo sw : sw_ins){
+                Cprint.i(" [" + sw.name + " " + sw.version + "] Tool seems to be installed.");
+            }
+            for (SWinfo sw : sw_unins){
+                Cprint.e(" [" + sw.name + " " + sw.version + "] Tool was not found in your environment.");
+            }
+            System.out.println();
 
             System.out.print(" Select Tool to Restore (Exit:0 / Reload Local Tool:-1) > ");
             sel_in = input.nextInt() - 1;
