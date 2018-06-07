@@ -118,11 +118,11 @@ public class Main{
                         break;
                     case 3:
                         Cprint.b("\n # Add Tool - Enter Information");
-                        
+                        Admin.addProgram();
                         break;
                     case 4:
                         Cprint.b("\n # Add Tool to Template - Select Template");
-                        Admin.addProgram();
+                        Admin.addProgramToTemplate();
                         break;
                     case 5:
                         Cprint.b("\n # Add Template - Enter Information");

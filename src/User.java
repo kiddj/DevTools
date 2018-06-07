@@ -282,6 +282,24 @@ public class User{
 		}
 	}
 
+	public static Boolean addProgramToTemplate(String program, String template){
+		PreparedStatement stmt = null;
+		try {
+		    stmt = conn.prepareStatement(
+	    	        "UPDATE Dev SET template = ?"
+	    	        + " WHERE name = ?");
+			stmt.setString(1, template);
+			stmt.setString(2, program);
+			stmt.executeUpdate();
+
+			return true;
+		} catch(Exception e) {
+			Cprint.e(" Error occurs: " + e);
+			Cprint.e(" Program adding failed. Please contact system administrator\n");
+			return false;
+		}
+	}
+
 	public static ResultSet getPrograms(String template){
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
@@ -333,6 +351,7 @@ public class User{
 							+ " WHERE name = ?");
 			stmt.setString(1, template);
 			stmt.executeUpdate();
+
 			return true;
 		} catch(Exception e) {
 			Cprint.e(" Error occurs: " + e);
