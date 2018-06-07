@@ -97,11 +97,11 @@ public class Main{
                         ManageTools.Restore();
                         break;
                     case 8:
-                        Cprint.e("\n # I sure hope you know what you are doing.");
+                        Cprint.e("\n # [Delete] Tools - I sure hope you know what you are doing.");
                         deleteProgram();
                         break;
                     case 9: // Delete Record
-                        Cprint.e("\n # I sure hope you know what you are doing.");
+                        Cprint.e("\n # [Delete Record] - I sure hope you know what you are doing.");
                         if(User.Delete()) System.exit(0);
                         else break;
                     default:
@@ -242,6 +242,7 @@ public class Main{
             TableList list_tp = new TableList(2, "Name","Description").withUnicode(true);
 
             int index = 1;
+
             while(templates.next()){
                 String details = templates.getString("details");
                 if(details == null) details = "";
@@ -265,10 +266,12 @@ public class Main{
                  index++;
             }
             list_tp.print();
-            System.out.print(" Select Program > ");
-            String program = programs.get(input.nextInt()-1);
+            System.out.print(" Select Program (Exit:0) > ");
+            int sel_sw = input.nextInt() - 1;
+            if (sel_sw == -1) return;
+            String program = programs.get(sel_sw);
             input.nextLine();
-            if(User.addProgramToTemplate(program,temp)) Cprint.w(program + " added to your saved tools.");
+            if(User.addProgramToTemplate(program,temp)) Cprint.i(" [" + program + "] saved successfully.");
         } else{
             Cprint.e(" There is no template available :(");
         }
@@ -291,13 +294,17 @@ public class Main{
                 programs.add(rs.getString("name"));
             }
             list_tp.print();
-            System.out.print(" Select Program > "); 
-            String program = programs.get(input.nextInt()-1);
-            input.nextLine();
+            System.out.print(" Select Program (Exit:0) > ");
+
+             int sel_sw = input.nextInt() - 1;
+             if (sel_sw == -1) return;
+             String program = programs.get(sel_sw);
+             input.nextLine();
 
             if(User.deleteProgram(program)) Cprint.w(program + " deleted from your saved tools.");
-
         } catch(Exception e){
+             Cprint.e(" Error occurs : " + e);
+             Cprint.e(" Failed. Please contact system administrator");
         }
     }
 
@@ -323,7 +330,7 @@ public class Main{
         mnu_main.addRow(ls("",30,0),ls("7. Restore your Tools",30,0));
         mnu_main.addRow(ls("",30,0),ls("8. Delete Tools",30,0));
         mnu_main.addRow(ls("",30,0),ls("",30,0));
-        mnu_main.addRow(ls("9. Delete Records",30,0),ls("0. Exit",30,0));
+        mnu_main.addRow(ls("9. Delete Record",30,0),ls("0. Exit",30,0));
         mnu_main.print();
 //        System.out.println("┌--------------------------------┬---------------------------------┐");
 //        System.out.println("│            Your Info           │     Manage Development Tools    │");
