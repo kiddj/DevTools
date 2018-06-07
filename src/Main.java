@@ -81,23 +81,23 @@ public class Main{
                         ManageTools.ShowTools();
                         break;
                     case 4: // Search/Add Installed Tools
-                        Cprint.b("\n # Search/Add Local Tools");
+                        Cprint.b("\n # [Add] Tools From Local Tools");
                         ManageTools.SearchAdd();
                         break;
                     case 5:
-                        Cprint.b("\n # Add Tools From Template");
+                        Cprint.b("\n # [Add] Tools From Template");
                         addFromTemplate();
                         break;
                     case 6:
-                        Cprint.b("\n # Add Tools Manually");
+                        Cprint.b("\n # [Add] Tools Manually");
                         addProgram();
                         break;
                     case 7:
-                        Cprint.b("\n # Restore your Tools");
+                        Cprint.b("\n # [Restore] your Tools");
                         ManageTools.Restore();
                         break;
                     case 8:
-                        Cprint.b("\n # Delete Tools");
+                        Cprint.e("\n # I sure hope you know what you are doing.");
                         deleteProgram();
                         break;
                     case 9: // Delete Record
@@ -248,7 +248,7 @@ public class Main{
             System.out.print(" Select Program > ");
             String program = programs.get(input.nextInt()-1);
             input.nextLine();
-            if(User.addProgramToTemplate(program,null)) Cprint.w(program + " added to your saved tools.");
+            if(User.addProgramToTemplate(program,temp)) Cprint.w(program + " added to your saved tools.");
         } else{
             Cprint.e(" There is no template available :(");
         }
