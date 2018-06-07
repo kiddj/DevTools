@@ -127,7 +127,7 @@ public class Main{
                         Admin.checkProgram();
                         break;
                     case 3:
-                        Cprint.b("\n # Search Tools - (All, Admin, Name, Version)");
+                        Cprint.b("\n # Search Tools - (All, Admin, Name, Uid)");
                         Admin.searchTools();
                         break;
                     case 4:

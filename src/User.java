@@ -216,7 +216,6 @@ public class User{
 	public static ResultSet getAdminTemplates(){
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
-		ArrayList<String> output = new ArrayList<String>();
 		try {
 		    stmt = conn.prepareStatement(
 	    	        "SELECT * from Template"
@@ -231,7 +230,25 @@ public class User{
 			return null;
 		}
 	}
+	public static ResultSet getTools(String type, String search){
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		String op = type.equals("uid") ? "=" : "LIKE";
+		try {
+		    stmt = conn.prepareStatement(
+	    	        "SELECT DISTINCT Dev.name, Dev.version from Dev "
+	    	        + "WHERE " + type + " " + op + " ?");
+			stmt.setString(1, search);
+			//stmt.setString(2, search);
+			rs = stmt.executeQuery();
 
+			return rs;
+		} catch(Exception e) {
+			Cprint.e(" Error occurs: " + e);
+			Cprint.e(" Failed. Please contact system administrator\n");
+			return null;
+		}
+	}
 	//Admin + 본인 템플릿
 	public static ResultSet getTemplates(){
 		PreparedStatement stmt = null;
@@ -326,6 +343,22 @@ public class User{
 				stmt = conn.prepareStatement(
 						"SELECT DISTINCT Dev.name, Dev.version, Dev.insPath, Dev.details, Dev.reference FROM Dev WHERE uid = 'admin'");
 			}
+			rs = stmt.executeQuery();
+			return rs;
+		} catch(Exception e) {
+			Cprint.e(" Error occurs: " + e);
+			Cprint.e(" Failed. Please contact system administrator\n");
+			return null;
+		}
+	}
+
+	public static ResultSet getAllPrograms(){
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+
+		try {
+			stmt = conn.prepareStatement(
+						"SELECT DISTINCT Dev.name, Dev.version, Dev.insPath, Dev.details, Dev.reference FROM Dev");
 			rs = stmt.executeQuery();
 			return rs;
 		} catch(Exception e) {

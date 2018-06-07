@@ -6,6 +6,29 @@ public class Admin {
 
     private static Scanner input = new Scanner(System.in);
 
+    public static void searchTools(){
+        String type = input.nextLine();
+        String type_l = type.toLowerCase();
+        ResultSet rs = null;
+        try{
+            if(type_l.equals("name") || type_l.equals("uid")){
+                System.out.print(type + ": ");
+                rs = User.getTools(type_l, input.nextLine());
+            } else{
+                if(type_l.equals("all")) rs = User.getAllPrograms();
+                else{
+                    rs = User.getPrograms_withid();
+                }
+            }
+            
+            while(rs.next()){
+                    System.out.println(rs.getString("name") + " " + rs.getString("version"));
+            }
+        } catch(Exception e){
+
+        }
+    }
+
     public static void deleteTemplate(){
         try{
         ResultSet templates = User.getAdminTemplates();
