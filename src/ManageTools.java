@@ -1,8 +1,12 @@
+import java.awt.*;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import static org.fusesource.jansi.Ansi.Color.*;
+import static org.fusesource.jansi.Ansi.Color.RED;
 import static org.fusesource.jansi.Ansi.ansi;
 
 public class ManageTools {
@@ -44,11 +48,92 @@ public class ManageTools {
         detail_tools.print();
     }
 
-    private static boolean isexist(SWinfo search_sw){
+    private static boolean isexist_server(SWinfo search_sw){
         for (SWinfo sw : saved_sw){
             if (sw.name.equals(search_sw.name) && sw.version.equals(search_sw.version)) return true;
         }
         return false;
+    }
+
+    private static void printTool(SWinfo sw){
+        TableList tinfo = new TableList(1, sw.name).withUnicode(true);
+        tinfo.addRow(ls("Version : " + sw.version, 60, 0));
+        tinfo.addRow(ls("Install Path : " + sw.insPath, 60, 0));
+        tinfo.addRow(ls("Reference : " + sw.reference, 60, 0));
+        tinfo.addRow(ls("Details : " + sw.details, 60, 0));
+        System.out.println();
+        tinfo.print();
+    }
+
+    public static void Restore(){
+        int sel_in = 0;
+        // Load tools from local
+        getInstalledTools();
+
+        while(sel_in != -1) {
+            if(sel_in == -2){
+                getInstalledTools();
+                sel_in = 0;
+            }
+            // Match with Tools in Server
+            LoadSavedTools();
+            ResultSet rs = User.getPrograms_withid();  // get All Dev (created by admin)
+            ArrayList<SWinfo> rtool = new ArrayList<SWinfo>();
+            ArrayList<SWinfo> sw_unins = new ArrayList<SWinfo>();
+
+            TableList match_tools = new TableList(2, "Saved Tools", "Installed Tools").withUnicode(true);
+            int index_sw = 0;
+            int installed_count = 0;
+            try {
+                while (rs.next()) {
+                    SWinfo loaded_sw = new SWinfo(
+                            rs.getString("name"),
+                            rs.getString("version"),
+                            rs.getString("insPath"),
+                            rs.getString("reference"),
+                            rs.getString("details")
+                    );
+                    index_sw++;
+                    installed_count = 0;
+                    String dsw_server = String.valueOf(index_sw) + ". " + loaded_sw.name + " " + loaded_sw.version;
+                    for (SWinfo installed_sw : Sysinfo.local_sw) {
+                        if (installed_sw.name.toLowerCase().contains(loaded_sw.name.toLowerCase())) {   // Match (User save <-> Local)
+                            String dsw_local = installed_sw.name + " " + installed_sw.version;
+                            match_tools.addRow(ls((installed_count==0)?dsw_server:"", 20, 0), ls(dsw_local, 40, 0));
+                            installed_count++;
+                        }
+                    }
+                    if (installed_count == 0){
+                        match_tools.addRow(ls(dsw_server, 20, 0), ls("", 40, 1));
+                        sw_unins.add(loaded_sw);
+                    }
+                    rtool.add(loaded_sw);
+                }
+            } catch (Exception e) {
+                Cprint.e(" Error occurs: " + e);
+                Cprint.e(" Failed. Please contact system administrator");
+            }
+            if (index_sw == 0) match_tools.addRow(ls("No Tool saved in Server", 20, 0), ls("", 40, 0));
+            match_tools.print();
+
+            System.out.print(" Select Tool to Restore (Exit:0 Reload Local Tool:-1) > ");
+            sel_in = input.nextInt() - 1;
+            input.nextLine();
+            if(sel_in != -1){
+                try {
+                    SWinfo sel_sw = rtool.get(sel_in);
+                    printTool(sel_sw);
+                    System.out.print(" Redirect to installation site (y.n) : ");
+                    String cont = input.nextLine().toLowerCase();
+                    if (cont.equals("y")){
+                        open_web(sel_sw.insPath);
+                    }
+                } catch (Exception e) {
+                    Cprint.e(" Error occurs : " + e);
+                    Cprint.e(" Failed. Please contact system administrator");
+                }
+            }
+        }
     }
 
     public static void SearchAdd(){
@@ -66,7 +151,7 @@ public class ManageTools {
             int index_sw = 0;
             try {
                 while (rs.next()) {
-                    for (SWinfo installed_sw : Sysinfo.list_sw) {
+                    for (SWinfo installed_sw : Sysinfo.local_sw) {
                         SWinfo loaded_sw = new SWinfo(
                                 rs.getString("name"),
                                 rs.getString("version"),
@@ -76,10 +161,10 @@ public class ManageTools {
                         );
                         if (installed_sw.name.toLowerCase().contains(loaded_sw.name.toLowerCase())) {   // Match
                             index_sw++;
-                            String dsw = String.valueOf(index_sw) + ". " + rs.getString("name") + " " + rs.getString("version");
+                            String dsw = String.valueOf(index_sw) + ". " + loaded_sw.name + " " + loaded_sw.version;
                             // Check Version
                             if (!installed_sw.version.equals(loaded_sw.version)) dsw += " (Version may not match)";
-                            match_tools.addRow(ls(dsw, 55, 0), ls(isexist(loaded_sw) ? "O" : "X", 5, 0));
+                            match_tools.addRow(ls(dsw, 55, 0), ls(isexist_server(loaded_sw) ? "O" : "X", 5, 0));
                             mtool.add(loaded_sw);
                             break;
                         }
@@ -97,13 +182,23 @@ public class ManageTools {
             if(sel_in != -1){
                 try {
                     SWinfo sel_sw = mtool.get(sel_in);
-                    if(isexist(sel_sw)) Cprint.w("\n [" + sel_sw.name + " " + sel_sw.version + "] is already saved.");
+                    if(isexist_server(sel_sw)) Cprint.w("\n [" + sel_sw.name + " " + sel_sw.version + "] is already saved.");
                     else User.addDev(sel_sw.name,sel_sw.version,sel_sw.insPath,sel_sw.reference,sel_sw.details,null);
                 } catch (Exception e) {
                     Cprint.e(" Error occurs : " + e);
                     Cprint.e(" Failed. Please contact system administrator");
                 }
             }
+        }
+    }
+
+    private static void open_web(String url){
+        try {
+            Desktop.getDesktop().browse(new URI(url));
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
         }
     }
 

@@ -3,7 +3,7 @@
 ![LOGO_DevTools](./image/logo.PNG)
 
 Store your development environment.<br>
-Tested only in Windows 64-bit environment.
+Tested only in Windows10 64-bit environment.
 
 # Setup
 
@@ -19,6 +19,7 @@ Compile source code and run (packaging must be done if compiled using javac - in
 
 * Password masking does not work on Eclipse/Intellij (must run manually in CMD)
 * English is supported by default. Korean(Hangul) may cause problems.
+* The representation of Unicode in CMD(or PowerShell) is different in Windows7 and Windows10. (In case of Windows7, Replace '─' to '-' in TableList.class)
 
 # Open source
 
