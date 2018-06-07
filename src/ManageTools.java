@@ -97,7 +97,7 @@ public class ManageTools {
             if(sel_in != -1){
                 try {
                     SWinfo sel_sw = mtool.get(sel_in);
-                    if(isexist(sel_sw)) Cprint.w(" [" + sel_sw.name + " " + sel_sw.version + "] is already saved.");
+                    if(isexist(sel_sw)) Cprint.w("\n [" + sel_sw.name + " " + sel_sw.version + "] is already saved.");
                     else User.addDev(sel_sw.name,sel_sw.version,sel_sw.insPath,sel_sw.reference,sel_sw.details,null);
                 } catch (Exception e) {
                     Cprint.e(" Error occurs : " + e);
