@@ -45,7 +45,6 @@ public class User{
 				stmt.executeUpdate();
 				Cprint.w(" User information successfully deleted. Thank you for using our service.");
 				return true;
-				
 			} catch(Exception e) {
                 Cprint.e(" Error occurs: " + e);
 				Cprint.e("\n Failed. Please contact system administrator\n");
@@ -204,7 +203,7 @@ public class User{
 			stmt.setString(3, details);
 			stmt.executeUpdate();
 
-			Cprint.i(name + " template created");
+			Cprint.i(" " + name + " template created");
 			return true;
 		} catch(Exception e) {
 			Cprint.e(" Error occurs: " + e);
@@ -288,10 +287,15 @@ public class User{
 		ResultSet rs = null;
 
 		try {
-		    stmt = conn.prepareStatement(
-	    	        "SELECT * FROM Dev"
-	    	        + " WHERE template = ?");
-			stmt.setString(1, template);
+			if (template != null) {	// Dev in template
+				stmt = conn.prepareStatement(
+						"SELECT * FROM Dev"
+								+ " WHERE template = ?");
+				stmt.setString(1, template);
+			} else {	// All Dev
+				stmt = conn.prepareStatement(
+						"SELECT * FROM Dev");
+			}
 			rs = stmt.executeQuery();
 			return rs;
 		} catch(Exception e) {

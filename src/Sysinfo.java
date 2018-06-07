@@ -2,7 +2,7 @@ import java.io.*;
 import java.util.*;
 
 public class Sysinfo {
-    private static List<SWinfo> list_sw = new ArrayList<SWinfo>();
+    public static List<SWinfo> list_sw = new ArrayList<SWinfo>();
     private static final String REGQUERY_UTIL = "reg query ";
     private static final String REGSTR_TOKEN = "REG_SZ";
     //private static final String REGDWORD_TOKEN = "REG_DWORD";
