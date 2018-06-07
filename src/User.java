@@ -212,7 +212,7 @@ public class User{
 		ArrayList<String> output = new ArrayList<String>();
 		try {
 		    stmt = conn.prepareStatement(
-	    	        "SELECT name from Template"
+	    	        "SELECT * from Template"
 	    	        + " WHERE createdBy = ? ");
 			stmt.setString(1, "admin");
 			rs = stmt.executeQuery();
@@ -237,7 +237,7 @@ public class User{
 		ArrayList<String> output = new ArrayList<String>();
 		try {
 		    stmt = conn.prepareStatement(
-	    	        "SELECT name from Template"
+	    	        "SELECT * from Template"
 	    	        + " WHERE createdBy = ? or createdBy = ? ");
 			stmt.setString(1, "admin");
 			stmt.setString(2, uid);
