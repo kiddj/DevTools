@@ -71,10 +71,7 @@ public class ManageTools {
         getInstalledTools();
 
         while(sel_in != -1) {
-            if(sel_in == -2){
-                getInstalledTools();
-                sel_in = 0;
-            }
+
             // Match with Tools in Server
             LoadSavedTools();
             ResultSet rs = User.getPrograms_withid();  // get All Dev (created by admin)
@@ -116,10 +113,15 @@ public class ManageTools {
             if (index_sw == 0) match_tools.addRow(ls("No Tool saved in Server", 20, 0), ls("", 40, 0));
             match_tools.print();
 
-            System.out.print(" Select Tool to Restore (Exit:0 Reload Local Tool:-1) > ");
+            System.out.print(" Select Tool to Restore (Exit:0 / Reload Local Tool:-1) > ");
             sel_in = input.nextInt() - 1;
             input.nextLine();
             if(sel_in != -1){
+                if(sel_in == -2){
+                    getInstalledTools();
+                    sel_in = 0;
+                    break;
+                }
                 try {
                     SWinfo sel_sw = rtool.get(sel_in);
                     printTool(sel_sw);
