@@ -233,7 +233,12 @@ public class User{
 	public static ResultSet getTools(String type, String search){
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
-		String op = type.equals("uid") ? "=" : "LIKE";
+		String op = "=";
+		if(type.equals("name")){
+			op = "LIKE";
+			search = "%"+search+"%";
+		} 
+
 		try {
 		    stmt = conn.prepareStatement(
 	    	        "SELECT DISTINCT Dev.name, Dev.version from Dev "
