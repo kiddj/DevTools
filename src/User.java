@@ -241,7 +241,7 @@ public class User{
 
 		try {
 		    stmt = conn.prepareStatement(
-	    	        "SELECT DISTINCT Dev.name, Dev.version from Dev "
+	    	        "SELECT DISTINCT Dev.name, Dev.version, Dev.details from Dev "
 	    	        + "WHERE " + type + " " + op + " ?");
 			stmt.setString(1, search);
 			//stmt.setString(2, search);

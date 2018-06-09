@@ -324,12 +324,13 @@ public class Main{
         displayLogo();
         TableList mnu_main = new TableList(2, "Manage Info","Manage Development Tools").withUnicode(true);
         mnu_main.addRow(ls("1. User Information",30,0),ls("3. Show Saved Tools",30,0));
-        mnu_main.addRow(ls("2. Change Password",30,0), ls("4. Add Tools From Local Tools",30,0));
+        mnu_main.addRow(ls("2. Change Password",30,0), ls("",30,0));
+        mnu_main.addRow(ls("",30,0), ls("4. Add Tools From Local Tools",30,0));
         mnu_main.addRow(ls("",30,0),ls("5. Add Tools From Template",30,0));
         mnu_main.addRow(ls("",30,0),ls("6. Add Tools Manually",30,0));
         mnu_main.addRow(ls("",30,0),ls("7. Restore your Tools",30,0));
-        mnu_main.addRow(ls("",30,0),ls("8. Delete Tools",30,0));
         mnu_main.addRow(ls("",30,0),ls("",30,0));
+        mnu_main.addRow(ls("",30,0),ls("8. Delete Tools",30,0));
         mnu_main.addRow(ls("9. Delete Record",30,0),ls("0. Exit",30,0));
         mnu_main.print();
 //        System.out.println("┌--------------------------------┬---------------------------------┐");
@@ -352,9 +353,11 @@ public class Main{
         mnu_admin.addRow(ls("1. User Information",30,0));
         mnu_admin.addRow(ls("2. View Template",30,0));
         mnu_admin.addRow(ls("3. Search Tools",30,0));
+        mnu_admin.addRow(ls("",30,0));
         mnu_admin.addRow(ls("4. Add Tool",30,0));
         mnu_admin.addRow(ls("5. Add Tool to Template",30,0));
         mnu_admin.addRow(ls("6. Add Template",30,0));
+        mnu_admin.addRow(ls("",30,0));
         mnu_admin.addRow(ls("7. Delete Tool",30,0));
         mnu_admin.addRow(ls("8. Delete Template",30,0));
         mnu_admin.addRow(ls("0. Exit",30,0));

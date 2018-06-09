@@ -12,7 +12,7 @@ public class Admin {
         if(type_l.equals("uid")) type = "ID";
         try{
             if(type_l.equals("name") || type_l.equals("uid")){
-                System.out.print("Enter " + type + " to Search: ");
+                System.out.print(" Enter " + type + " to Search: ");
                 rs = User.getTools(type_l, input.nextLine());
             } else{
                 if(type_l.equals("all")) rs = User.getAllPrograms();
@@ -20,12 +20,15 @@ public class Admin {
                     rs = User.getPrograms_withid();
                 }
             }
-            
-            while(rs.next()){
-                    System.out.println(rs.getString("name") + " " + rs.getString("version"));
-            }
-        } catch(Exception e){
 
+            TableList list_tp = new TableList(3, "Name","Version","Description").withUnicode(true);
+            while(rs.next()){
+                list_tp.addRow(ls(rs.getString("name"),15,0),ls(rs.getString("version"),10,0),ls(rs.getString("details"),40,0));
+            }
+            list_tp.print();
+
+        } catch(Exception e){
+            Cprint.e(" Error occurs : " + e);
         }
     }
 
@@ -92,10 +95,13 @@ public class Admin {
                  index++;
             }
             list_tp.print();
-            System.out.print(" Select ToolS > ");
 
-            SWinfo program = programs.get(input.nextInt()-1);
+            System.out.print(" Select Tools to delete (Exit:0) > ");
+            int sel_tool = input.nextInt() - 1;
             input.nextLine();
+            if (sel_tool == -1) return;
+            SWinfo program = programs.get(sel_tool);
+
             if(User.deleteProgram(program,temp)) Cprint.e(" [" + program.name + " " + program.version + "] deleted from " + temp + " template.");
         } else{
             Cprint.e(" There is no template available :(");
