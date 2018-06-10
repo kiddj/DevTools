@@ -8,9 +8,6 @@ import static org.fusesource.jansi.Ansi.ansi;
 import java.util.ArrayList;
 import java.sql.ResultSet;
 
-//TODO
-//Devtools Sorting
-
 public class Main{
     private static Scanner input = new Scanner(System.in);
     public static User User = new User();
