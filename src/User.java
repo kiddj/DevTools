@@ -17,17 +17,21 @@ public class User{
     public static String uid, pwd;
     public static int auth = 0;
 
-	public User(String user_id, String user_pw) {
+    public User(){
+		connectDB();
+	}
+
+	private static void connectDB(){
 		try {
-		Class.forName("com.mysql.cj.jdbc.Driver");
-		conn = DriverManager.getConnection("jdbc:mysql://211.249.61.207/DevTools?serverTimezone=UTC&useSSL=false", "devtools", "tlftmq1");
-		//System.out.println("Database Connected");
-		md = MessageDigest.getInstance("SHA-256");
+			if(conn!=null) return;
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			conn = DriverManager.getConnection("jdbc:mysql://211.249.61.207/DevTools?serverTimezone=UTC&useSSL=false", "devtools", "tlftmq1");
+			//System.out.println("Database Connected");
+			md = MessageDigest.getInstance("SHA-256");
 		} catch(Exception e) {
 			Cprint.e(" Error occurs: " + e);
 			Cprint.e(" Database Connection Error");
 		}
-		Login(user_id,user_pw);
 	}
 
 	public static Boolean Delete(){

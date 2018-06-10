@@ -13,7 +13,7 @@ import java.sql.ResultSet;
 
 public class Main{
     private static Scanner input = new Scanner(System.in);
-    public static User User;
+    public static User User = new User();
     private static String str_ver = "0.1.0";
 
     //Test all encoding type
@@ -373,7 +373,7 @@ public class Main{
         uid = input.nextLine();
         System.out.print(" Enter Password: ");
         pwd = getPassword();
-        User = new User(uid,pwd);
+        User.Login(uid,pwd);
     }
 
     private static String getPassword() {
