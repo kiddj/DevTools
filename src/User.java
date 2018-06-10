@@ -258,31 +258,6 @@ public class User{
 			return null;
 		}
 	}
-	//Admin + 본인 템플릿
-	public static ResultSet getTemplates(){
-		PreparedStatement stmt = null;
-		ResultSet rs = null;
-
-		ArrayList<String> output = new ArrayList<String>();
-		try {
-		    stmt = conn.prepareStatement(
-	    	        "SELECT * from Template"
-	    	        + " WHERE createdBy = ? or createdBy = ? ");
-			stmt.setString(1, "admin");
-			stmt.setString(2, uid);
-			rs = stmt.executeQuery();
-
-			while(rs.next()){
-				output.add(rs.getString("name"));
-			}
-			
-			return rs;
-		} catch(Exception e) {
-			Cprint.e(" Error occurs: " + e);
-			Cprint.e(" Failed. Please contact system administrator\n");
-			return null;
-		}
-	}
 
 	public static Boolean addDev(String name, String version, String insPath, String reference, String details, String temp){
 		PreparedStatement stmt = null;
