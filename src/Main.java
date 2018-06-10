@@ -271,7 +271,7 @@ public class Main{
             if (sel_sw == -1) return;
             SWinfo program = programs.get(sel_sw);
 
-            if(User.addProgramToTemplate(program,temp)) Cprint.i(" [" + program.name + " " + program.version + "] saved successfully.");
+            if(User.addProgramToTemplate(program,null)) Cprint.i(" [" + program.name + " " + program.version + "] saved successfully.");
         } else{
             Cprint.e(" There is no template available :(");
         }
