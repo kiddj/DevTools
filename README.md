@@ -9,7 +9,7 @@ Tested only in Windows10 64-bit environment.
 
 Download the zip file: [DevTools](./DevTools.zip)
 
-Execute the 'run.bat' file
+Unzip and Execute the 'run.bat' file
 
 # Setup for Development
 
